@@ -12,7 +12,7 @@ const app = new Hono();
 app.use(logger());
 
 app.get("/", (c) => {
-  return c.html(LandingPage({ cssUrl }));
+  return c.html(LandingPage({ cssUrl, siteUrl: c.req.url }));
 });
 
 app.get("/forum/:id", async (c) => {
@@ -23,7 +23,7 @@ app.get("/forum/:id", async (c) => {
   const html = await cachedFetch(url, 1800);
   const threads = parseThreadList(html);
 
-  return c.html(ForumPage({ id, threads, page, cssUrl }));
+  return c.html(ForumPage({ id, threads, page, cssUrl, siteUrl: c.req.url }));
 });
 
 app.get("/thread/:id", async (c) => {
@@ -33,7 +33,7 @@ app.get("/thread/:id", async (c) => {
   const html = await cachedFetch(url, 7200);
   const { html: content, toc } = cleanThreadHtml(html);
 
-  return c.html(ThreadPage({ content, toc, cssUrl, forumUrl: url }), 200, cacheHeaders());
+  return c.html(ThreadPage({ content, toc, cssUrl, forumUrl: url, siteUrl: c.req.url }), 200, cacheHeaders());
 });
 
 export default app;

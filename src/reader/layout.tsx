@@ -30,11 +30,17 @@ function Shell({
   title,
   cssUrl,
   path,
+  siteUrl,
+  description,
+  image,
   children,
 }: {
   title: string;
   cssUrl: string;
   path: string;
+  siteUrl?: string;
+  description?: string;
+  image?: string;
   children: any;
 }) {
   return (
@@ -42,6 +48,13 @@ function Shell({
       <head>
         <meta charset="UTF-8" />
         <title>{title}</title>
+        <meta name="description" content={description || "Path of Exile patch notes reader"} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description || "Path of Exile patch notes reader"} />
+        <meta property="og:type" content="website" />
+        {siteUrl && <meta property="og:url" content={siteUrl} />}
+        {image && siteUrl && <meta property="og:image" content={new URL(image, siteUrl).toString()} />}
+        <meta name="twitter:card" content="summary_large_image" />{/**/}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){var t=localStorage.getItem("theme");if(!t)t="system";if(t==="system")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t)})()`,
@@ -63,13 +76,13 @@ function Shell({
   );
 }
 
-export function LandingPage({ cssUrl }: { cssUrl: string }) {
+export function LandingPage({ cssUrl, siteUrl }: { cssUrl: string; siteUrl?: string }) {
   const subforums = [
     { id: "2212", name: "English Patch Notes" },
     { id: "2272", name: "Russian Patch Notes" },
   ];
   return (
-    <Shell title="Patch Notes" cssUrl={cssUrl} path="/">
+    <Shell title="Patch Notes" cssUrl={cssUrl} path="/" siteUrl={siteUrl} description="Path of Exile patch notes — clean, fast, no clutter." image="/img/RotAInfographic.webp">
       <div class="container">
         <div class="featured">
           <a href="/thread/3932540" class="featured-link">
@@ -97,16 +110,18 @@ export function ForumPage({
   threads,
   page,
   cssUrl,
+  siteUrl,
 }: {
   id: string;
   threads: ThreadLink[];
   page: string;
   cssUrl: string;
+  siteUrl?: string;
 }) {
   const path = `/forum/${id}`;
   const label = id === "2212" ? "English Patch Notes" : id === "2272" ? "Russian Patch Notes" : `Forum ${id}`;
   return (
-    <Shell title={`${label} — Patch Notes`} cssUrl={cssUrl} path={path}>
+    <Shell title={`${label} — Patch Notes`} cssUrl={cssUrl} path={path} siteUrl={siteUrl} description={`Browse ${label}.`}>
       <div class="container">
         <h1>{label}</h1>
         {threads.length === 0 && <p>No threads found.</p>}
@@ -153,14 +168,16 @@ export function ThreadPage({
   toc,
   cssUrl,
   forumUrl,
+  siteUrl,
 }: {
   content: string;
   toc: TocItem[];
   cssUrl: string;
   forumUrl: string;
+  siteUrl?: string;
 }) {
   return (
-    <Shell title="Thread — Patch Notes" cssUrl={cssUrl} path="">
+    <Shell title="Thread — Patch Notes" cssUrl={cssUrl} path="" siteUrl={siteUrl} image="/img/RotAInfographic.webp">
       <div class="container thread-layout">
         <div class="thread-content">
           <a href={forumUrl} class="forum-link" target="_blank">View on forum →</a>
