@@ -20,6 +20,7 @@ function Nav({ path }: { path: string }) {
             </a>
           ))}
         </div>
+        <button class="theme-toggle" id="theme-toggle"></button>
       </div>
     </nav>
   );
@@ -41,12 +42,22 @@ function Shell({
       <head>
         <meta charset="UTF-8" />
         <title>{title}</title>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem("theme");if(!t)t="system";if(t==="system")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t)})()`,
+          }}
+        />
         <link rel="stylesheet" href={cssUrl} />
         {import.meta.env.DEV && <script type="module" src="/@vite/client" />}
       </head>
       <body>
         <Nav path={path} />
         <main class="main">{children}</main>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `var b=document.getElementById("theme-toggle");var t=document.documentElement.getAttribute("data-theme");b.textContent=t==="dark"?"Dark":t==="light"?"Light":"System";b.addEventListener("click",function(){var t=document.documentElement.getAttribute("data-theme");if(!t||t==="system"){document.documentElement.setAttribute("data-theme","light");localStorage.setItem("theme","light");this.textContent="Light"}else if(t==="light"){document.documentElement.setAttribute("data-theme","dark");localStorage.setItem("theme","dark");this.textContent="Dark"}else{document.documentElement.removeAttribute("data-theme");localStorage.setItem("theme","system");this.textContent="System"}})`,
+          }}
+        />
       </body>
     </html>
   );
