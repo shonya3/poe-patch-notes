@@ -51,6 +51,19 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
     }
   });
 
+  const hasUpdates = toc.some((t) => t.id === "updatestopatchnotes");
+  if (hasUpdates) {
+    const tocHeading = contentEl.querySelector("h3");
+    if (tocHeading && tocHeading.text.trim() === "Table of Contents") {
+      let ul = tocHeading.nextElementSibling;
+      while (ul && ul.tagName !== "UL") ul = ul.nextElementSibling;
+      if (ul) {
+        const li = parse('<li><a href="#updatestopatchnotes">Updates to Patch Notes</a></li>').firstChild;
+        if (li) ul.appendChild(li);
+      }
+    }
+  }
+
   return { html: contentEl.innerHTML, toc };
 }
 

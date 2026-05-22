@@ -5,7 +5,7 @@ export async function cachedFetch(url: string, ttlSeconds: number): Promise<stri
   if (cached) return cached.text();
 
   const res = await fetch(url, {
-    headers: { "User-Agent": "PoEForumReader/1.0" },
+    headers: { "User-Agent": "PatchNotes/1.0" },
     cf: { cacheTtl: ttlSeconds, cacheEverything: true },
   });
   const data = await res.text();
