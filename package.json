@@ -22,7 +22,7 @@
 		"typescript": "^6.0",
 		"typescript-eslint": "8.48.0",
 		"vite": "^8.0",
-		"wrangler": "4.92"
+		"wrangler": "4.93.1"
 	},
 	"private": true,
 	"scripts": {
