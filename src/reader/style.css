@@ -27,14 +27,13 @@
   --color-olive-400: oklch(88% 0.011 106.6);
   --color-orange-400: oklch(83.7% 0.128 66.29);
 
-  --text: light-dark(#24293e, var(--color-olive-400));
   --bg: light-dark(#fff, var(--color-zink-900));
   --muted: light-dark(#555, #a3aab5);
   --link: light-dark(#2563eb, #7aa2ff);
   --green: light-dark(#16a34a, #4ade80);
   --border: light-dark(#e5e7eb, #1e293b);
 
-  --prose-color: var(--text);
+  --prose-color: light-dark(#24293e, var(--color-taupe-400));
   --prose-heading-color: light-dark(#24293e, var(--color-taupe-300))
 }
 
