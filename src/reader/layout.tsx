@@ -2,7 +2,8 @@ import type { ThreadLink, TocItem } from "./parser";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/thread/3932540", label: "0.5.0" },
+  { href: "/thread/3932540", label: "0.5.0 EN" },
+  { href: "/thread/3932617", label: "0.5.0 RU" },
 ];
 
 function Nav({ path }: { path: string }) {
@@ -86,8 +87,13 @@ export function LandingPage({ cssUrl, siteUrl }: { cssUrl: string; siteUrl?: str
       <div class="container">
         <div class="featured">
           <a href="/thread/3932540" class="featured-link">
-            <span class="featured-label">0.5.0 Patch Notes</span>
+            <span class="featured-label">0.5.0 Patch Notes — EN</span>
             <span class="featured-title">Content Update 0.5.0 — Path of Exile 2: Return of the Ancients</span>
+            <span class="featured-arrow">→</span>
+          </a>
+          <a href="/thread/3932617" class="featured-link">
+            <span class="featured-label">0.5.0 Patch Notes — RU</span>
+            <span class="featured-title">Обновление 0.5.0 — Path of Exile 2: Возвращение Древних</span>
             <span class="featured-arrow">→</span>
           </a>
         </div>
