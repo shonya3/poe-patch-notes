@@ -22,6 +22,7 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
   contentEl.querySelectorAll("style, script").forEach((el) => el.remove());
 
   const toc: TocItem[] = [];
+  const tocIds = new Set<string>();
 
   contentEl.querySelectorAll("*").forEach((el) => {
     const tag = el.tagName.toLowerCase();
@@ -31,8 +32,10 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
       const text = el.text.trim();
       if (!text) return;
       const id = slugify(text);
+      if (id === "tableofcontents" || id === "содержание" || tocIds.has(id)) return;
       el.setAttribute("id", id);
       keep.push("id");
+      tocIds.add(id);
       toc.push({ id, text, level: Number(tag[1]) });
     }
 
@@ -51,13 +54,24 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
     }
   });
 
-  const hasUpdates = toc.some((t) => t.id === "updatestopatchnotes");
-  if (hasUpdates) {
-    const tocHeading = contentEl.querySelector("h3");
-    if (tocHeading && tocHeading.text.trim() === "Table of Contents") {
-      let ul = tocHeading.nextElementSibling;
-      while (ul && ul.tagName !== "UL") ul = ul.nextElementSibling;
-      if (ul) {
+  const tocHeading = contentEl.querySelector("h3");
+  const tocText = tocHeading && tocHeading.text.trim();
+  if (tocHeading && (tocText === "Table of Contents" || tocText === "Содержание")) {
+    let ul = tocHeading.nextElementSibling;
+    while (ul && ul.tagName !== "UL") ul = ul.nextElementSibling;
+    if (ul) {
+      const tocLinks = ul.querySelectorAll("a[href^='#']");
+      const contentHeadings = contentEl.querySelectorAll("h1[id],h2[id],h3[id],h4[id]");
+      let headingIdx = 0;
+      tocLinks.forEach((link) => {
+        while (headingIdx < contentHeadings.length) {
+          const h = contentHeadings[headingIdx++];
+          if (h === tocHeading) continue;
+          link.setAttribute("href", "#" + h.id);
+          break;
+        }
+      });
+      if (toc.some((t) => t.id === "updatestopatchnotes")) {
         const li = parse('<li><a href="#updatestopatchnotes">Updates to Patch Notes</a></li>').firstChild;
         if (li) ul.appendChild(li);
       }
