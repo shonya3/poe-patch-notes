@@ -159,6 +159,18 @@ body {
   color: var(--link);
 }
 
+.forum-link {
+  display: inline-block;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.forum-link:hover {
+  color: var(--link);
+}
+
 .toc {
   width: 200px;
   flex-shrink: 0;

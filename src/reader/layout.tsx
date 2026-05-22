@@ -152,15 +152,20 @@ export function ThreadPage({
   content,
   toc,
   cssUrl,
+  forumUrl,
 }: {
   content: string;
   toc: TocItem[];
   cssUrl: string;
+  forumUrl: string;
 }) {
   return (
     <Shell title="Thread — Patch Notes" cssUrl={cssUrl} path="">
       <div class="container thread-layout">
-        <div class="thread-content" dangerouslySetInnerHTML={{ __html: content }} />
+        <div class="thread-content">
+          <a href={forumUrl} class="forum-link" target="_blank">View on forum →</a>
+          <div dangerouslySetInnerHTML={{ __html: content }} />
+        </div>
         {toc.length > 0 && <TocSidebar items={toc} />}
       </div>
       <script
