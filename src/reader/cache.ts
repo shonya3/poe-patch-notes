@@ -23,8 +23,9 @@ export async function cachedFetch(url: string, ttlSeconds: number): Promise<stri
   return data;
 }
 
-export function cacheHeaders(ttlSeconds: number): Record<string, string> {
+export function cacheHeaders(): Record<string, string> {
   return {
-    "Cache-Control": `public, s-maxage=${ttlSeconds}`,
+    // "Cache-Control": `public, s-maxage=${ttlSeconds}`,
+    "Cache-Control": "private, no-cache",
   };
 }

@@ -7,10 +7,7 @@ export interface TocItem {
 }
 
 function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
+  return text.toLowerCase().replace(/\s+/g, "");
 }
 
 export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
@@ -44,6 +41,13 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
 
     for (const key of Object.keys(el.attributes)) {
       if (!keep.includes(key)) el.removeAttribute(key);
+    }
+  });
+
+  contentEl.querySelectorAll("img").forEach((el) => {
+    const src = el.getAttribute("src") || "";
+    if (src === "https://web.poecdn.com/public/news/2026-05-22/RotAInfographic.png") {
+      el.setAttribute("src", "/img/RotAInfographic.webp");
     }
   });
 

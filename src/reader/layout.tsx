@@ -2,15 +2,14 @@ import type { ThreadLink, TocItem } from "./parser";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/forum/2212", label: "English Patch Notes" },
-  { href: "/forum/2272", label: "Russian Patch Notes" },
+  { href: "/thread/3932540", label: "0.5.0" },
 ];
 
 function Nav({ path }: { path: string }) {
   return (
     <nav class="nav">
       <div class="nav-inner">
-        <a href="/" class="nav-brand">PoE Forum Reader</a>
+        <a href="/" class="nav-brand">Patch Notes</a>
         <div class="nav-links">
           {NAV_LINKS.map((l) => (
             <a
@@ -42,14 +41,8 @@ function Shell({
       <head>
         <meta charset="UTF-8" />
         <title>{title}</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
         <link rel="stylesheet" href={cssUrl} />
-        <script type="module" src="/@vite/client" />
+        {import.meta.env.DEV && <script type="module" src="/@vite/client" />}
       </head>
       <body>
         <Nav path={path} />
@@ -65,9 +58,16 @@ export function LandingPage({ cssUrl }: { cssUrl: string }) {
     { id: "2272", name: "Russian Patch Notes" },
   ];
   return (
-    <Shell title="PoE Forum Reader" cssUrl={cssUrl} path="/">
+    <Shell title="Patch Notes" cssUrl={cssUrl} path="/">
       <div class="container">
-        <h1>Forums</h1>
+        <div class="featured">
+          <a href="/thread/3932540" class="featured-link">
+            <span class="featured-label">0.5.0 Patch Notes</span>
+            <span class="featured-title">Content Update 0.5.0 — Path of Exile 2: Return of the Ancients</span>
+            <span class="featured-arrow">→</span>
+          </a>
+        </div>
+        <h2 class="forums-heading">Forums</h2>
         <div class="forum-cards">
           {subforums.map((sf) => (
             <a href={`/forum/${sf.id}`} class="forum-card">
@@ -95,7 +95,7 @@ export function ForumPage({
   const path = `/forum/${id}`;
   const label = id === "2212" ? "English Patch Notes" : id === "2272" ? "Russian Patch Notes" : `Forum ${id}`;
   return (
-    <Shell title={`${label} — PoE Forum Reader`} cssUrl={cssUrl} path={path}>
+    <Shell title={`${label} — Patch Notes`} cssUrl={cssUrl} path={path}>
       <div class="container">
         <h1>{label}</h1>
         {threads.length === 0 && <p>No threads found.</p>}
@@ -147,7 +147,7 @@ export function ThreadPage({
   cssUrl: string;
 }) {
   return (
-    <Shell title="Thread — PoE Forum Reader" cssUrl={cssUrl} path="">
+    <Shell title="Thread — Patch Notes" cssUrl={cssUrl} path="">
       <div class="container thread-layout">
         <div class="thread-content" dangerouslySetInnerHTML={{ __html: content }} />
         {toc.length > 0 && <TocSidebar items={toc} />}

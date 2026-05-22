@@ -33,7 +33,7 @@ app.get("/thread/:id", async (c) => {
   const html = await cachedFetch(url, 7200);
   const { html: content, toc } = cleanThreadHtml(html);
 
-  return c.html(ThreadPage({ content, toc, cssUrl }), 200, cacheHeaders(7200));
+  return c.html(ThreadPage({ content, toc, cssUrl }), 200, cacheHeaders());
 });
 
 export default app;
