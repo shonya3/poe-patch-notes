@@ -58,7 +58,7 @@ function Shell({
         <meta name="twitter:card" content="summary_large_image" />{/**/}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem("theme");if(!t)t="system";if(t==="system")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t)})()`,
+            __html: `(function(){var t=localStorage.getItem("theme");if(!t)t="system";if(t==="system")document.documentElement.removeAttribute("data-scheme");else document.documentElement.setAttribute("data-scheme",t)})()`,
           }}
         />
         <link rel="stylesheet" href={cssUrl} />
@@ -69,7 +69,7 @@ function Shell({
         <main class="main">{children}</main>
         <script
           dangerouslySetInnerHTML={{
-            __html: `var b=document.getElementById("theme-toggle");var t=document.documentElement.getAttribute("data-theme");b.textContent=t==="dark"?"Dark":t==="light"?"Light":"System";b.addEventListener("click",function(){var t=document.documentElement.getAttribute("data-theme");if(!t||t==="system"){document.documentElement.setAttribute("data-theme","light");localStorage.setItem("theme","light");this.textContent="Light"}else if(t==="light"){document.documentElement.setAttribute("data-theme","dark");localStorage.setItem("theme","dark");this.textContent="Dark"}else{document.documentElement.removeAttribute("data-theme");localStorage.setItem("theme","system");this.textContent="System"}})`,
+            __html: `var b=document.getElementById("theme-toggle");var t=document.documentElement.getAttribute("data-scheme");b.textContent=t==="dark"?"Dark":t==="light"?"Light":"System";b.addEventListener("click",function(){var t=document.documentElement.getAttribute("data-scheme");if(!t||t==="system"){document.documentElement.setAttribute("data-scheme","light");localStorage.setItem("theme","light");this.textContent="Light"}else if(t==="light"){document.documentElement.setAttribute("data-scheme","dark");localStorage.setItem("theme","dark");this.textContent="Dark"}else{document.documentElement.removeAttribute("data-scheme");localStorage.setItem("theme","system");this.textContent="System"}})`,
           }}
         />
       </body>
