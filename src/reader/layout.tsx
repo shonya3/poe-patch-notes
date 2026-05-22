@@ -82,7 +82,7 @@ export function LandingPage({ cssUrl, siteUrl }: { cssUrl: string; siteUrl?: str
     { id: "2272", name: "Russian Patch Notes" },
   ];
   return (
-    <Shell title="Patch Notes" cssUrl={cssUrl} path="/" siteUrl={siteUrl} description="Path of Exile patch notes — clean, fast, no clutter." image="/img/RotAInfographic.webp">
+    <Shell title="Patch Notes" cssUrl={cssUrl} path="/" siteUrl={siteUrl} description="Path of Exile patch notes">
       <div class="container">
         <div class="featured">
           <a href="/thread/3932540" class="featured-link">
@@ -121,7 +121,7 @@ export function ForumPage({
   const path = `/forum/${id}`;
   const label = id === "2212" ? "English Patch Notes" : id === "2272" ? "Russian Patch Notes" : `Forum ${id}`;
   return (
-    <Shell title={`${label} — Patch Notes`} cssUrl={cssUrl} path={path} siteUrl={siteUrl} description={`Browse ${label}.`}>
+    <Shell title={`${label} — Patch Notes`} cssUrl={cssUrl} path={path} siteUrl={siteUrl} description={label}>
       <div class="container">
         <h1>{label}</h1>
         {threads.length === 0 && <p>No threads found.</p>}
