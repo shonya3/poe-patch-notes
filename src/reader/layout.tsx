@@ -203,6 +203,7 @@ document.addEventListener("click", function(e) {
 var tocLinks = document.querySelectorAll(".toc-link");
 var headings = document.querySelectorAll(".thread-content h1, .thread-content h2, .thread-content h3, .thread-content h4");
 function updateActive() {
+  if(!headings.length) return;
   var scrollY = window.scrollY;
   var current = "";
   if (scrollY > 1) {
