@@ -12,7 +12,7 @@ function slugify(text: string): string {
 
 export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
   const root = parse(raw);
-  const post = root.querySelector("tr.newsPost");
+  const post = root.querySelector("tr.newsPost") ?? root.querySelector('tr.staff') ?? null;
   if (!post) return { html: "", toc: [] };
 
   post.querySelectorAll(".posted-by").forEach((el) => el.remove());
