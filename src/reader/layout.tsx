@@ -10,13 +10,12 @@ function Nav({ path }: { path: string }) {
   return (
     <nav class="nav">
       <div class="nav-inner">
-        <a href="/" class="nav-brand">Patch Notes</a>
+        <a href="/" class="nav-brand">
+          Patch Notes
+        </a>
         <div class="nav-links">
           {NAV_LINKS.map((l) => (
-            <a
-              href={l.href}
-              class={"nav-link" + (path === l.href ? " active" : "")}
-            >
+            <a href={l.href} class={"nav-link" + (path === l.href ? " active" : "")}>
               {l.label}
             </a>
           ))}
@@ -52,11 +51,17 @@ function Shell({
         <title>{title}</title>
         <meta name="description" content={description || "Path of Exile patch notes reader"} />
         <meta property="og:title" content={title} />
-        <meta property="og:description" content={description || "Path of Exile patch notes reader"} />
+        <meta
+          property="og:description"
+          content={description || "Path of Exile patch notes reader"}
+        />
         <meta property="og:type" content="website" />
         {siteUrl && <meta property="og:url" content={siteUrl} />}
-        {image && siteUrl && <meta property="og:image" content={new URL(image, siteUrl).toString()} />}
-        <meta name="twitter:card" content="summary_large_image" />{/**/}
+        {image && siteUrl && (
+          <meta property="og:image" content={new URL(image, siteUrl).toString()} />
+        )}
+        <meta name="twitter:card" content="summary_large_image" />
+        {/**/}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){var t=localStorage.getItem("theme");if(!t)t="system";if(t==="system")document.documentElement.removeAttribute("data-scheme");else document.documentElement.setAttribute("data-scheme",t)})()`,
@@ -84,17 +89,27 @@ export function LandingPage({ cssUrl, siteUrl }: { cssUrl: string; siteUrl?: str
     { id: "2272", name: "Russian Patch Notes" },
   ];
   return (
-    <Shell title="Patch Notes" cssUrl={cssUrl} path="/" siteUrl={siteUrl} description="Path of Exile patch notes">
+    <Shell
+      title="Patch Notes"
+      cssUrl={cssUrl}
+      path="/"
+      siteUrl={siteUrl}
+      description="Path of Exile patch notes"
+    >
       <div class="container">
         <div class="featured">
           <a href="/thread/3932540" class="featured-link">
             <span class="featured-label">0.5.0 Patch Notes — EN</span>
-            <span class="featured-title">Content Update 0.5.0 — Path of Exile 2: Return of the Ancients</span>
+            <span class="featured-title">
+              Content Update 0.5.0 — Path of Exile 2: Return of the Ancients
+            </span>
             <span class="featured-arrow">→</span>
           </a>
           <a href="/thread/3932617" class="featured-link">
             <span class="featured-label">0.5.0 Patch Notes — RU</span>
-            <span class="featured-title">Обновление 0.5.0 — Path of Exile 2: Возвращение Древних</span>
+            <span class="featured-title">
+              Обновление 0.5.0 — Path of Exile 2: Возвращение Древних
+            </span>
             <span class="featured-arrow">→</span>
           </a>
         </div>
@@ -126,9 +141,16 @@ export function ForumPage({
   siteUrl?: string;
 }) {
   const path = `/forum/${id}`;
-  const label = id === "2212" ? "English Patch Notes" : id === "2272" ? "Russian Patch Notes" : `Forum ${id}`;
+  const label =
+    id === "2212" ? "English Patch Notes" : id === "2272" ? "Russian Patch Notes" : `Forum ${id}`;
   return (
-    <Shell title={`${label} — Patch Notes`} cssUrl={cssUrl} path={path} siteUrl={siteUrl} description={label}>
+    <Shell
+      title={`${label} — Patch Notes`}
+      cssUrl={cssUrl}
+      path={path}
+      siteUrl={siteUrl}
+      description={label}
+    >
       <div class="container">
         <h1>{label}</h1>
         {threads.length === 0 && <p>No threads found.</p>}
@@ -140,9 +162,7 @@ export function ForumPage({
           ))}
         </ul>
         <div class="pagination">
-          {Number(page) > 1 && (
-            <a href={`/forum/${id}?page=${Number(page) - 1}`}>← Previous</a>
-          )}
+          {Number(page) > 1 && <a href={`/forum/${id}?page=${Number(page) - 1}`}>← Previous</a>}
           <a href={`/forum/${id}?page=${Number(page) + 1}`}>Next →</a>
         </div>
       </div>
@@ -159,7 +179,10 @@ export function TocSidebar({ items }: { items: TocItem[] }) {
           {items.map((item) => (
             <a
               href={`#${item.id}`}
-              class={"toc-link" + (item.level === 1 ? " toc-h1" : item.level === 2 ? " toc-h2" : " toc-h3")}
+              class={
+                "toc-link" +
+                (item.level === 1 ? " toc-h1" : item.level === 2 ? " toc-h2" : " toc-h3")
+              }
             >
               {item.text}
             </a>
@@ -184,10 +207,18 @@ export function ThreadPage({
   siteUrl?: string;
 }) {
   return (
-    <Shell title="Thread — Patch Notes" cssUrl={cssUrl} path="" siteUrl={siteUrl} image="/img/RotAInfographic.webp">
+    <Shell
+      title="Thread — Patch Notes"
+      cssUrl={cssUrl}
+      path=""
+      siteUrl={siteUrl}
+      image="/img/RotAInfographic.webp"
+    >
       <div class="container thread-layout">
         <div class="thread-content">
-          <a href={forumUrl} class="forum-link" target="_blank">View on forum →</a>
+          <a href={forumUrl} class="forum-link" target="_blank">
+            View on forum →
+          </a>
           <div dangerouslySetInnerHTML={{ __html: content }} />
         </div>
         {toc.length > 0 && <TocSidebar items={toc} />}

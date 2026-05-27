@@ -12,7 +12,7 @@ function slugify(text: string): string {
 
 export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
   const root = parse(raw);
-  const post = root.querySelector("tr.newsPost") ?? root.querySelector('tr.staff') ?? null;
+  const post = root.querySelector("tr.newsPost") ?? root.querySelector("tr.staff") ?? null;
   if (!post) return { html: "", toc: [] };
 
   post.querySelectorAll(".posted-by").forEach((el) => el.remove());
@@ -40,7 +40,10 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
     }
 
     if (el.tagName === "A") keep.push("href");
-    if (el.tagName === "IMG") { keep.push("src"); keep.push("alt"); }
+    if (el.tagName === "IMG") {
+      keep.push("src");
+      keep.push("alt");
+    }
 
     for (const key of Object.keys(el.attributes)) {
       if (!keep.includes(key)) el.removeAttribute(key);
@@ -72,7 +75,9 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
         }
       });
       if (toc.some((t) => t.id === "updatestopatchnotes")) {
-        const li = parse('<li><a href="#updatestopatchnotes">Updates to Patch Notes</a></li>').firstChild;
+        const li = parse(
+          '<li><a href="#updatestopatchnotes">Updates to Patch Notes</a></li>',
+        ).firstChild;
         if (li) ul.appendChild(li);
       }
     }
