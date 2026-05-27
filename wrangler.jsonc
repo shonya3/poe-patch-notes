@@ -1,11 +1,10 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "poe-patch-notes",
-  "main": "./src/reader/index.tsx",
-  "compatibility_date": "2025-10-08",
+  "compatibility_date": "2026-05-27",
   "compatibility_flags": ["nodejs_compat"],
+  "main": "@tanstack/react-start/server-entry",
   "observability": {
     "enabled": true
-  },
-  "upload_source_maps": true
+  }
 }

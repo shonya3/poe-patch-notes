@@ -1,20 +1,26 @@
-import type { TocItem } from "../parser";
-import { TocSidebar } from "../components/TocSidebar";
+import { createFileRoute } from "@tanstack/react-router";
+import { getThreadContentFn } from "~/server/functions";
+import { TocSidebar } from "~/components/TocSidebar";
 
-export function ThreadPage({
-  content,
-  toc,
-  forumUrl,
-}: {
-  content: string;
-  toc: TocItem[];
-  forumUrl: string;
-}) {
+export const Route = createFileRoute("/thread/$threadId")({
+  loader: async ({ params }) => {
+    return getThreadContentFn({ data: { threadId: params.threadId } });
+  },
+  component: ThreadPage,
+  head: ({ loaderData }) => ({
+    meta: [
+      { property: "og:image", content: "/img/RotAInfographic.webp" },
+    ],
+  }),
+});
+
+function ThreadPage() {
+  const { content, toc, forumUrl } = Route.useLoaderData();
   return (
     <>
-      <div class="container thread-layout">
-        <div class="thread-content">
-          <a href={forumUrl} class="forum-link" target="_blank">
+      <div className="container thread-layout">
+        <div className="thread-content">
+          <a href={forumUrl} className="forum-link" target="_blank">
             View on forum →
           </a>
           <div dangerouslySetInnerHTML={{ __html: content }} />
@@ -59,9 +65,7 @@ window.addEventListener("scroll", function() {
   }
 }, { passive: true });
 updateActive();
-`
-            .trim()
-            .replace(/\n\s+/g, "\n"),
+`.trim().replace(/\n\s+/g, "\n"),
         }}
       />
     </>

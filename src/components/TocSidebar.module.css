@@ -1,0 +1,67 @@
+.toc {
+  width: 200px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+@media (max-width: 768px) {
+  .toc {
+    display: none;
+  }
+}
+
+.tocInner {
+  position: sticky;
+  top: 68px;
+}
+
+.tocLabel {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.tocLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tocLink {
+  display: block;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 3px 0 3px 12px;
+  border-left: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.tocLink[href="#updatestopatchnotes"] {
+  color: var(--green);
+}
+
+.tocLink:global(.active) {
+  color: var(--link);
+  border-left-color: var(--link);
+}
+
+.tocLink[href="#updatestopatchnotes"]:global(.active) {
+  border-left-color: var(--green);
+}
+
+.tocH1 {
+  padding-left: 12px;
+}
+
+.tocH2 {
+  padding-left: 24px;
+}
+
+.tocH3 {
+  padding-left: 36px;
+}
