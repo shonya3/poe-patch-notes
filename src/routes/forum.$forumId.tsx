@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { getForumThreadsFn } from "~/server/functions";
 import type { ThreadLink } from "~/server/parser";
 
@@ -20,7 +20,7 @@ function ForumPage() {
       <ul className="thread-list">
         {threads.map((t: ThreadLink) => (
           <li key={t.id}>
-            <a href={`/thread/${t.id}`}>{t.title}</a>
+            <Link to="/thread/$threadId" params={{ threadId: t.id }}>{t.title}</Link>
           </li>
         ))}
       </ul>

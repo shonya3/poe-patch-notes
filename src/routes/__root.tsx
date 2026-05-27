@@ -1,5 +1,6 @@
 import {
   HeadContent,
+  Link,
   Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
@@ -12,7 +13,7 @@ export const Route = createRootRoute({
     <div className="container">
       <h1>Page not found</h1>
       <p>The page you are looking for does not exist.</p>
-      <a href="/">Go home</a>
+      <Link to="/">Go home</Link>
     </div>
   ),
   head: () => ({

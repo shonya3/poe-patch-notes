@@ -13,28 +13,28 @@ function Home() {
   return (
     <div className="container">
       <div className="featured">
-        <a href="/thread/3932540" className="featured-link">
+        <Link to="/thread/$threadId" params={{ threadId: "3932540" }} className="featured-link">
           <span className="featured-label">0.5.0 Patch Notes — EN</span>
           <span className="featured-title">
             Content Update 0.5.0 — Path of Exile 2: Return of the Ancients
           </span>
           <span className="featured-arrow">→</span>
-        </a>
-        <a href="/thread/3932617" className="featured-link">
+        </Link>
+        <Link to="/thread/$threadId" params={{ threadId: "3932617" }} className="featured-link">
           <span className="featured-label">0.5.0 Patch Notes — RU</span>
           <span className="featured-title">
             Обновление 0.5.0 — Path of Exile 2: Возвращение Древних
           </span>
           <span className="featured-arrow">→</span>
-        </a>
+        </Link>
       </div>
       <h2 className="forums-heading">Forums</h2>
       <div className="forum-cards">
         {subforums.map((sf) => (
-          <a key={sf.id} href={`/forum/${sf.id}`} className="forum-card">
+          <Link key={sf.id} to="/forum/$forumId" params={{ forumId: sf.id }} className="forum-card">
             <span className="forum-card-title">{sf.name}</span>
             <span className="forum-card-arrow">→</span>
-          </a>
+          </Link>
         ))}
       </div>
     </div>
