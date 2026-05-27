@@ -35,3 +35,6 @@ dist/
 
 # TanStack
 .tanstack
+
+
+*.module.css.d.ts

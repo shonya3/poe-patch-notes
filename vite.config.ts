@@ -2,6 +2,7 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { defineConfig } from "vite";
 import viteReact from "@vitejs/plugin-react";
+import typedCssModulesPlugin from "vite-plugin-typed-css-modules";
 
 export default defineConfig({
   server: { port: 3000 },
@@ -10,5 +11,6 @@ export default defineConfig({
     cloudflare({ viteEnvironment: { name: "ssr" } }),
     tanstackStart(),
     viteReact(),
+    typedCssModulesPlugin()
   ],
 });
