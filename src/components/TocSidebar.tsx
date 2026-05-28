@@ -29,7 +29,9 @@ export function TocSidebar({ items }: { items: TocItem[] }) {
       }
     }
 
-    function onScroll() { requestAnimationFrame(updateActive); }
+    function onScroll() {
+      requestAnimationFrame(updateActive);
+    }
     function onClick(e: MouseEvent) {
       const link = (e.target as HTMLElement).closest<HTMLAnchorElement>("[data-toc-link]");
       if (!link) return;

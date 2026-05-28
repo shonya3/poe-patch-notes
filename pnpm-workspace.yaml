@@ -3,5 +3,5 @@ allowBuilds:
   sharp: true
   workerd: true
 minimumReleaseAgeExclude:
-  - '@tanstack/react-start-client@1.168.5'
-  - '@tanstack/react-start@1.168.14'
+  - "@tanstack/react-start-client@1.168.5"
+  - "@tanstack/react-start@1.168.14"

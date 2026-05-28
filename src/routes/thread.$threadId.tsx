@@ -8,9 +8,7 @@ export const Route = createFileRoute("/thread/$threadId")({
   },
   component: ThreadPage,
   head: ({ loaderData }) => ({
-    meta: [
-      { property: "og:image", content: "/img/RotAInfographic.webp" },
-    ],
+    meta: [{ property: "og:image", content: "/img/RotAInfographic.webp" }],
   }),
 });
 

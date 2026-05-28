@@ -12,7 +12,11 @@ export const Route = createFileRoute("/forum/$forumId")({
 function ForumPage() {
   const { threads, forumId, page } = Route.useLoaderData();
   const label =
-    forumId === "2212" ? "English Patch Notes" : forumId === "2272" ? "Russian Patch Notes" : `Forum ${forumId}`;
+    forumId === "2212"
+      ? "English Patch Notes"
+      : forumId === "2272"
+        ? "Russian Patch Notes"
+        : `Forum ${forumId}`;
   return (
     <div className="container">
       <h1>{label}</h1>
@@ -20,7 +24,9 @@ function ForumPage() {
       <ul className="thread-list">
         {threads.map((t: ThreadLink) => (
           <li key={t.id}>
-            <Link to="/thread/$threadId" params={{ threadId: t.id }}>{t.title}</Link>
+            <Link to="/thread/$threadId" params={{ threadId: t.id }}>
+              {t.title}
+            </Link>
           </li>
         ))}
       </ul>

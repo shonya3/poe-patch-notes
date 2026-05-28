@@ -16,7 +16,9 @@ export function Nav() {
   return (
     <nav className={styles.nav}>
       <div className={styles.navInner}>
-        <a href="/" className={styles.navBrand}>Patch Notes</a>
+        <a href="/" className={styles.navBrand}>
+          Patch Notes
+        </a>
         <div className={styles.navLinks}>
           {NAV_LINKS.map((l) => (
             <Link

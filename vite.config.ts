@@ -11,6 +11,6 @@ export default defineConfig({
     cloudflare({ viteEnvironment: { name: "ssr" } }),
     tanstackStart(),
     viteReact(),
-    typedCssModulesPlugin()
+    typedCssModulesPlugin(),
   ],
 });

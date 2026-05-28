@@ -1,9 +1,4 @@
-import {
-  HeadContent,
-  Link,
-  Scripts,
-  createRootRoute,
-} from "@tanstack/react-router";
+import { HeadContent, Link, Scripts, createRootRoute } from "@tanstack/react-router";
 import * as React from "react";
 import { Nav } from "~/components/Nav";
 import appCss from "~/styles/app.css?url";
@@ -24,9 +19,7 @@ export const Route = createRootRoute({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [
-      { rel: "stylesheet", href: appCss },
-    ],
+    links: [{ rel: "stylesheet", href: appCss }],
     scripts: [
       {
         children: `(function(){var t=localStorage.getItem("theme");if(!t)t="system";if(t==="system")document.documentElement.removeAttribute("data-scheme");else document.documentElement.setAttribute("data-scheme",t)})()`,

@@ -38,7 +38,9 @@
   text-decoration: none;
   padding: 3px 0 3px 12px;
   border-left: 2px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
 }
 
 .tocLink[href="#updatestopatchnotes"] {
