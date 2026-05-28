@@ -8,7 +8,8 @@
     "deploy": "pnpm build && wrangler deploy",
     "build": "vite build",
     "preview": "vite preview",
-    "fmt": "oxfmt"
+    "fmt": "oxfmt",
+    "check": "tsgo --noEmit && oxlint"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.8",
@@ -22,12 +23,13 @@
     "@cloudflare/vite-plugin": "1.37.3",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "@typescript/native-preview": "7.0.0-dev.20260526.1",
     "@vitejs/plugin-react": "^6.0.1",
     "oxfmt": "^0.52.0",
     "oxlint": "^1.67.0",
-    "typescript": "^6.0.2",
     "vite": "^8.0.14",
     "vite-plugin-typed-css-modules": "^0.5.3",
     "wrangler": "^4.95.0"
-  }
+  },
+  "packageManager": "pnpm@11.4.0"
 }
