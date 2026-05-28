@@ -1,14 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getThreadContentFn } from "~/server/functions";
 import { TocSidebar } from "~/components/TocSidebar";
+import { PATCH_NOTES_0_5_THREAD_IDS } from "~/consts";
 
 export const Route = createFileRoute("/thread/$threadId")({
   loader: async ({ params }) => {
     return getThreadContentFn({ data: { threadId: params.threadId } });
   },
   component: ThreadPage,
-  head: ({ loaderData }) => ({
-    meta: [{ property: "og:image", content: "/img/RotAInfographic.webp" }],
+  head: ({ params }) => ({
+    meta: (PATCH_NOTES_0_5_THREAD_IDS as readonly string[]).includes(params.threadId)
+      ? [{ property: "og:image", content: "/img/RotAInfographic.webp" }]
+      : [],
   }),
 });
 
