@@ -1,0 +1,33 @@
+.threadList {
+  list-style: none;
+
+  li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  a {
+    color: var(--link);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+
+  a {
+    color: var(--link);
+    text-decoration: none;
+    font-size: 14px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

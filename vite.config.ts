@@ -9,7 +9,7 @@ export default defineConfig({
   resolve: { tsconfigPaths: true },
   plugins: [
     cloudflare({ viteEnvironment: { name: "ssr" } }),
-    tanstackStart(),
+    tanstackStart({ router: { routeFileIgnorePattern: "\\.(css|d\\.ts)$" } }),
     viteReact(),
     typedCssModulesPlugin(),
   ],
