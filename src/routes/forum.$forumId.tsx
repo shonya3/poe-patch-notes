@@ -1,11 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { fallback, integer, minValue, number, object, pipe } from "valibot";
 import { getForumThreadsFn } from "~/server/functions";
 import type { ThreadLink } from "~/server/parser";
 
+const ForumSearchSchema = object({
+  page: fallback(pipe(number(), integer(), minValue(1)), 1),
+});
+
 export const Route = createFileRoute("/forum/$forumId")({
-  loader: async ({ params }) => {
-    return getForumThreadsFn({ data: { forumId: params.forumId, page: 1 } });
-  },
+  loaderDeps: ({ search: { page } }) => ({ page }),
+  loader: ({ params, deps }) =>
+    getForumThreadsFn({ data: { forumId: params.forumId, page: deps.page } }),
+  validateSearch: ForumSearchSchema,
   component: ForumPage,
 });
 
@@ -31,8 +37,14 @@ function ForumPage() {
         ))}
       </ul>
       <div className="pagination">
-        {Number(page) > 1 && <a href={`/forum/${forumId}?page=${Number(page) - 1}`}>← Previous</a>}
-        <a href={`/forum/${forumId}?page=${Number(page) + 1}`}>Next →</a>
+        {page > 1 && (
+          <Link to="/forum/$forumId" params={{ forumId }} search={{ page: page - 1 }}>
+            ← Previous
+          </Link>
+        )}
+        <Link to="/forum/$forumId" params={{ forumId }} search={{ page: page + 1 }}>
+          Next →
+        </Link>
       </div>
     </div>
   );

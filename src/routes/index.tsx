@@ -31,7 +31,13 @@ function Home() {
       <h2 className="forums-heading">Forums</h2>
       <div className="forum-cards">
         {subforums.map((sf) => (
-          <Link key={sf.id} to="/forum/$forumId" params={{ forumId: sf.id }} className="forum-card">
+          <Link
+            key={sf.id}
+            to="/forum/$forumId"
+            search={{ page: 1 }}
+            params={{ forumId: sf.id }}
+            className="forum-card"
+          >
             <span className="forum-card-title">{sf.name}</span>
             <span className="forum-card-arrow">→</span>
           </Link>
