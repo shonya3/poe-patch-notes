@@ -55,22 +55,3 @@
   color: var(--link);
 }
 
-.themeToggle {
-  margin-left: auto;
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 500;
-  padding: 4px 10px;
-  cursor: pointer;
-  transition:
-    color 0.15s,
-    border-color 0.15s;
-}
-
-.themeToggle:hover {
-  color: var(--prose-heading-color);
-  border-color: var(--prose-heading-color);
-}

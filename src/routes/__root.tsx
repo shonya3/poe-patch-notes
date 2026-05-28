@@ -38,11 +38,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <Nav />
         <main className="main">{children}</main>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `var b=document.getElementById("theme-toggle");var t=document.documentElement.getAttribute("data-scheme");b.textContent=t==="dark"?"Dark":t==="light"?"Light":"System";b.addEventListener("click",function(){var t=document.documentElement.getAttribute("data-scheme");if(!t||t==="system"){document.documentElement.setAttribute("data-scheme","light");localStorage.setItem("theme","light");this.textContent="Light"}else if(t==="light"){document.documentElement.setAttribute("data-scheme","dark");localStorage.setItem("theme","dark");this.textContent="Dark"}else{document.documentElement.removeAttribute("data-scheme");localStorage.setItem("theme","system");this.textContent="System"}})`,
-          }}
-        />
         <Scripts />
       </body>
     </html>
