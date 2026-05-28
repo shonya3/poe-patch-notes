@@ -5,6 +5,7 @@
   "sideEffects": false,
   "scripts": {
     "dev": "vite dev",
+    "deploy": "pnpm build && wrangler deploy",
     "build": "vite build",
     "preview": "vite preview",
     "fmt": "oxfmt"
