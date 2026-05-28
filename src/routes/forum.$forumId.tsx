@@ -4,7 +4,7 @@ import type { ThreadLink } from "~/server/parser";
 
 export const Route = createFileRoute("/forum/$forumId")({
   loader: async ({ params }) => {
-    return getForumThreadsFn({ data: { forumId: params.forumId, page: "1" } });
+    return getForumThreadsFn({ data: { forumId: params.forumId, page: 1 } });
   },
   component: ForumPage,
 });
