@@ -24,7 +24,7 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
   const toc: TocItem[] = [];
   const tocIds = new Set<string>();
 
-  contentEl.querySelectorAll("*").forEach((el) => {
+  contentEl.querySelectorAll("h1,h2,h3,h4,a,img").forEach((el) => {
     const tag = el.tagName.toLowerCase();
     const keep: string[] = [];
 
@@ -43,17 +43,13 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
     if (el.tagName === "IMG") {
       keep.push("src");
       keep.push("alt");
+      if (el.getAttribute("src") === "https://web.poecdn.com/public/news/2026-05-22/RotAInfographic.png") {
+        el.setAttribute("src", "/img/RotAInfographic.webp");
+      }
     }
 
     for (const key of Object.keys(el.attributes)) {
       if (!keep.includes(key)) el.removeAttribute(key);
-    }
-  });
-
-  contentEl.querySelectorAll("img").forEach((el) => {
-    const src = el.getAttribute("src") || "";
-    if (src === "https://web.poecdn.com/public/news/2026-05-22/RotAInfographic.png") {
-      el.setAttribute("src", "/img/RotAInfographic.webp");
     }
   });
 
