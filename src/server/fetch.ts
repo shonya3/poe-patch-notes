@@ -5,11 +5,11 @@ export async function cachedFetch(url: string, ttlSeconds: number): Promise<stri
   const cache = await caches.open("poe-forum");
   const cached = await cache.match(request);
   if (cached) {
-    console.log(`[cache] HIT ${shortUrl(url)}`);
+    console.log(`[forum-cache] HIT ${shortUrl(url)}`);
     return cached.text();
   }
 
-  console.log(`[cache] MISS ${shortUrl(url)} — fetching`);
+  console.log(`[forum-cache] MISS ${shortUrl(url)}`);
   const res = await fetch(url, {
     headers: { "User-Agent": "PatchNotes/1.0" },
     cf: { cacheTtl: ttlSeconds, cacheEverything: true },
@@ -26,6 +26,6 @@ export async function cachedFetch(url: string, ttlSeconds: number): Promise<stri
     }),
   );
 
-  console.log(`[cache] STORED ${shortUrl(url)} (${(data.length / 1024).toFixed(1)} KB)`);
+  console.log(`[forum-cache] STORE ${shortUrl(url)} (${(data.length / 1024).toFixed(1)} KB)`);
   return data;
 }
