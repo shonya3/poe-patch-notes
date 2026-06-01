@@ -12,7 +12,7 @@ export default {
 
       const cached = await cache.match(cacheKey);
       if (cached) {
-        console.log("main.ts [ssr-cache] HIT", url.pathname);
+        console.log("[ssr-cache] HIT", url.pathname);
         return cached;
       }
 
