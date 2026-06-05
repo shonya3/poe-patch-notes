@@ -4,3 +4,10 @@ export const PATCH_NOTES_0_5_THREAD_IDS = [
   PATCH_NOTES_0_5_EN_THREAD_ID,
   PATCH_NOTES_0_5_RU_THREAD_ID,
 ] as const;
+
+export const PATCH_NOTES_THREAD_IDS = {
+  "0.5.0_EN": PATCH_NOTES_0_5_EN_THREAD_ID,
+  "0.5.0_RU": PATCH_NOTES_0_5_RU_THREAD_ID,
+  "0.5.1_EN": "3949197",
+  "0.5.1_RU": "3949224",
+} as const;
