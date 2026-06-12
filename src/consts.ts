@@ -10,4 +10,6 @@ export const PATCH_NOTES_THREAD_IDS = {
   "0.5.0_RU": PATCH_NOTES_0_5_RU_THREAD_ID,
   "0.5.1_EN": "3949197",
   "0.5.1_RU": "3949224",
+  "0.5.2_EN": "3960375",
+  "0.5.2_RU": "3960420",
 } as const;
