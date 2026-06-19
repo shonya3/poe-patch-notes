@@ -14,14 +14,9 @@ const subforums = [
 
 const FEATURED_LINKS = [
   {
-    id: PATCH_NOTES_THREAD_IDS["0.5.2_EN"],
-    label: "0.5.2 Patch Notes — EN",
-    title: "0.5.2 Patch Notes",
-  },
-  {
-    id: PATCH_NOTES_THREAD_IDS["0.5.2_RU"],
-    label: "0.5.2 Patch Notes — RU",
-    title: "Обновление 0.5.2",
+    id: PATCH_NOTES_THREAD_IDS["0.5.3_EN"],
+    label: "0.5.3 Patch Notes — EN",
+    title: "0.5.3 Patch Notes",
   },
 ] as const;
 
