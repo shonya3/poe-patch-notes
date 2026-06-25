@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { PATCH_NOTES_THREAD_IDS } from "~/consts";
 import styles from "./index.module.css";
 import { FeaturedLink } from "~/components/featured-thread-link";
 
@@ -14,9 +13,14 @@ const subforums = [
 
 const FEATURED_LINKS = [
   {
-    id: PATCH_NOTES_THREAD_IDS["0.5.3_EN"],
-    label: "0.5.3 Patch Notes — EN",
-    title: "0.5.3 Patch Notes",
+    id: "3975218",
+    label: "0.5.4 Patch Notes — EN",
+    title: "0.5.4 Patch Notes",
+  },
+  {
+    id: "3975239",
+    label: "0.5.4 Patch Notes — RU",
+    title: "Обновление 0.5.4",
   },
 ] as const;
 
