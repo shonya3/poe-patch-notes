@@ -9,7 +9,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "fmt": "oxfmt",
-    "check": "tsgo --noEmit && oxlint"
+    "check": "tsgo --noEmit && oxlint",
+    "test": "vitest run"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.8",
@@ -29,6 +30,7 @@
     "oxlint": "^1.70.0",
     "vite": "^8.0",
     "vite-plugin-typed-css-modules": "^0.5.3",
+    "vitest": "^4.1.9",
     "wrangler": "^4.101.0"
   },
   "packageManager": "pnpm@11.7.0"

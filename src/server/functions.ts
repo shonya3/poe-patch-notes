@@ -4,7 +4,7 @@ import { object, pipe, string, minLength, number, minValue } from "valibot";
 
 const FORUM_BASE = "https://www.pathofexile.com/forum";
 
-async function fromPoe(url: string): Promise<string> {
+async function fetchForumHtml(url: string): Promise<string> {
   const res = await fetch(url, { headers: { "User-Agent": "PatchNotes/1.0" } });
   return res.text();
 }
@@ -30,10 +30,10 @@ export const getForumThreadsFn = createServerFn({ method: "GET" })
     }
 
     console.log(`[forum-cache] MISS ${logUrl(url)}`);
-    const raw = await fromPoe(url);
+    const raw = await fetchForumHtml(url);
     const threads = parseThreadList(raw);
     const cachedRes = new Response(JSON.stringify({ threads }), {
-      headers: { "Cache-Control": "public, s-maxage=1800" },
+      headers: { "Cache-Control": "public, s-maxage=10" },
     });
     await cache.put(url, cachedRes);
     console.log(`[forum-cache] STORE ${logUrl(url)}`);
@@ -58,7 +58,7 @@ export const getThreadContentFn = createServerFn({ method: "GET" })
     }
 
     console.log(`[thread-cache] MISS ${logUrl(url)}`);
-    const raw = await fromPoe(url);
+    const raw = await fetchForumHtml(url);
     const { html: content, toc } = cleanThreadHtml(raw);
     const cachedRes = new Response(JSON.stringify({ content, toc }), {
       headers: { "Cache-Control": "public, s-maxage=7200" },

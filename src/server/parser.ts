@@ -85,22 +85,67 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
 export interface ThreadLink {
   id: string;
   title: string;
+  createdAt: string;
+  author: string | null;
 }
 
-export function parseThreadList(html: string): ThreadLink[] {
+export function parseThreadList(html: string, lang: Lang = "en"): ThreadLink[] {
   const root = parse(html);
-  const threads: ThreadLink[] = [];
   const seen = new Set<string>();
 
-  root.querySelectorAll("td.thread .title a[href*='view-thread']").forEach((link) => {
-    const href = link.getAttribute("href") || "";
-    const match = href.match(/view-thread\/(\d+)/);
-    if (!match) return;
-    const id = match[1];
-    if (seen.has(id)) return;
-    seen.add(id);
-    threads.push({ id, title: link.text.trim() });
-  });
+  return Array.from(root.querySelectorAll("td.thread"))
+    .map((row): ThreadLink | null => {
+      const link = row.querySelector(".title a[href*='view-thread']");
+      if (!link) return null;
+      const href = link.getAttribute("href") || "";
+      const match = href.match(/view-thread\/(\d+)/);
+      if (!match) return null;
+      const id = match[1];
+      if (seen.has(id)) return null;
+      seen.add(id);
 
-  return threads;
+      const dateEl = row.querySelector(".postBy .post_date");
+      const dateStr = dateEl ? dateEl.text.trim().replace(/^,\s*/, "") : "";
+      const createdAt = dateStr ? parseForumDate(lang, dateStr) : "";
+      const authorEl = row.querySelector(".post_by_account a");
+      const author = authorEl ? authorEl.text.trim() : null;
+
+      return { id, title: link.text.trim(), createdAt, author };
+    })
+    .filter((t): t is ThreadLink => t !== null);
+}
+
+const EN_MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+const RU_MONTHS = ["янв.", "февр.", "мар.", "апр.", "мая", "июн.", "июл.", "авг.", "сент.", "окт.", "нояб.", "дек."];
+
+export type Lang = "en" | "ru";
+
+export function parseForumDate(lang: Lang, str: string): string {
+  let s = str;
+
+  if (lang === "ru") {
+    for (let i = 0; i < RU_MONTHS.length; i++) {
+      s = s.replace(RU_MONTHS[i], String(i + 1));
+    }
+    s = s.replace(" г.", "");
+  }
+
+  if (s.startsWith(", ")) {
+    s = s.slice(2);
+  }
+
+  if (lang === "en") {
+    const m = s.match(/^(\w+)\s+(\d+),\s+(\d+),\s+(\d+):(\d+):(\d+)\s+(AM|PM)$/);
+    if (!m) return "";
+    const month = EN_MONTHS.indexOf(m[1].toLowerCase().slice(0, 3));
+    if (month === -1) return "";
+    let h = Number(m[4]);
+    if (m[7] === "PM" && h < 12) h += 12;
+    if (m[7] === "AM" && h === 12) h = 0;
+    return new Date(Date.UTC(Number(m[3]), month, Number(m[2]), h, Number(m[5]), Number(m[6]))).toISOString();
+  }
+
+  const m = s.match(/^(\d+)\s+(\d+)\s+(\d+),\s+(\d+):(\d+):(\d+)$/);
+  if (!m) return "";
+  return new Date(Date.UTC(Number(m[3]), Number(m[2]) - 1, Number(m[1]), Number(m[4]), Number(m[5]), Number(m[6]))).toISOString();
 }

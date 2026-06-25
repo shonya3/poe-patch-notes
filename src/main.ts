@@ -1,10 +1,15 @@
 import handler from "@tanstack/react-start/server-entry";
+import { getSubforumThreads } from "./api/threads";
 
 const CACHE_SSR = "CACHE_SSR";
 
 export default {
   async fetch(request: Request, _env: Env): Promise<Response> {
     const url = new URL(request.url);
+
+    if (request.method === "GET" && url.pathname === "/api/threads") {
+      return getSubforumThreads(url);
+    }
 
     if (request.method === "GET" && url.pathname.startsWith("/thread/")) {
       const cache = await caches.open(CACHE_SSR);
