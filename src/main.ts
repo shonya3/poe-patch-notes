@@ -1,7 +1,7 @@
 import handler from "@tanstack/react-start/server-entry";
 import { getSubforumThreads } from "./api/threads";
 
-const CACHE_SSR = "CACHE_SSR";
+const CACHE_SSR = "SSR_CACHE";
 
 export default {
   async fetch(request: Request, _env: Env): Promise<Response> {
@@ -26,7 +26,7 @@ export default {
       if (response.status === 200) {
         const body = await response.clone().text();
         const cachedRes = new Response(body, response);
-        cachedRes.headers.set("Cache-Control", "public, s-maxage=7200");
+        cachedRes.headers.set("Cache-Control", "public, s-maxage=30");
         await cache.put(cacheKey, cachedRes);
         console.log("[ssr-cache] STORE", url.pathname, body.length);
       }
