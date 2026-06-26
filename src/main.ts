@@ -11,7 +11,7 @@ export default {
       return getSubforumThreads(url);
     }
 
-    if (request.method === "GET" && url.pathname.startsWith("/thread/")) {
+    if (import.meta.env.PROD && request.method === "GET" && url.pathname.startsWith("/thread/")) {
       const cache = await caches.open(CACHE_SSR);
       const cacheKey = url.origin + url.pathname;
 
