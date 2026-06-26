@@ -5,9 +5,9 @@ import styles from "./TocSidebar.module.css";
 export function TocSidebar({ items }: { items: TocItem[] }) {
   useEffect(() => {
     const links = document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]");
-    const headings = document.querySelectorAll<HTMLElement>(
-      ".thread-content h1, .thread-content h2, .thread-content h3, .thread-content h4",
-    );
+    const headings = items
+      .map((item) => document.getElementById(item.id))
+      .filter((el): el is HTMLElement => el !== null);
     if (!headings.length || !links.length) return;
 
     function updateActive() {

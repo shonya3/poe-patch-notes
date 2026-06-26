@@ -24,7 +24,7 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
   const toc: TocItem[] = [];
   const tocIds = new Set<string>();
 
-  contentEl.querySelectorAll("h1,h2,h3,h4,a,img").forEach((el) => {
+  contentEl.querySelectorAll("h1,h2,h3,h4,a,img,strong").forEach((el) => {
     const tag = el.tagName.toLowerCase();
     const keep: string[] = [];
 
@@ -37,6 +37,23 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
       keep.push("id");
       tocIds.add(id);
       toc.push({ id, text, level: Number(tag[1]) });
+    }
+
+    if (tag === "strong") {
+      const text = el.text.trim();
+      if (!text) return;
+      const p = el.parentNode;
+      if (!p) return;
+      const isHeading =
+        (p.tagName === "P" && p.textContent.trim() === text) ||
+        (p.getAttribute("class") ?? "").includes("content");
+      if (!isHeading) return;
+      const id = slugify(text);
+      if (id === "tableofcontents" || id === "содержание" || tocIds.has(id)) return;
+      el.setAttribute("id", id);
+      keep.push("id");
+      tocIds.add(id);
+      toc.push({ id, text, level: 3 });
     }
 
     if (el.tagName === "A") keep.push("href");
