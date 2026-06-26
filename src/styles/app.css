@@ -36,11 +36,11 @@
   --prose-heading-color: light-dark(#24293e, var(--color-taupe-300));
 }
 
-:root[data-scheme="light"] {
-  color-scheme: light;
-}
-:root[data-scheme="dark"] {
+.color-scheme--dark {
   color-scheme: dark;
+}
+.color-scheme--light {
+  color-scheme: light;
 }
 
 body {
@@ -67,4 +67,3 @@ h1 {
   font-weight: 700;
   margin-bottom: 20px;
 }
-

@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import styles from "./Nav.module.css";
 import { PATCH_NOTES_0_5_EN_THREAD_ID, PATCH_NOTES_0_5_RU_THREAD_ID } from "~/consts";
-import { ThemeToggle } from "./ThemeToggle";
+import { ThemeToggle } from "~/features/theme/ThemeToggle";
 
 interface NavLink {
   to: string;
