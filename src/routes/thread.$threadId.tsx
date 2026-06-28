@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { getThreadContentFn } from "~/server/functions";
 import { TocSidebar } from "~/components/TocSidebar";
 import { PATCH_NOTES_0_5_THREAD_IDS } from "~/consts";
@@ -18,10 +18,15 @@ export const Route = createFileRoute("/thread/$threadId")({
 });
 
 function ThreadPage() {
-  const { content, toc, forumUrl } = Route.useLoaderData();
+  const { content, toc, forumUrl, subforumId, subforumName } = Route.useLoaderData();
   return (
     <div className="container thread-layout">
       <div className="thread-content">
+        {subforumId && subforumName && (
+          <Link to="/forum/$forumId" params={{ forumId: subforumId }} search={{ page: 1 }} className="forum-breadcrumb">
+            ← {subforumName}
+          </Link>
+        )}
         <a href={forumUrl} className="forum-link" target="_blank">
           View on forum →
         </a>

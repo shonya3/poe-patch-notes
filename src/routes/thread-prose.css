@@ -23,6 +23,19 @@
   }
 }
 
+.forum-breadcrumb {
+  display: inline-block;
+  margin-right: 16px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--link);
+  }
+}
+
 .thread-content {
   & h1, & h2, & h3 {
     margin-top: 24px;

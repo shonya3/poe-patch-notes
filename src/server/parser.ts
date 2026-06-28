@@ -10,10 +10,14 @@ function slugify(text: string): string {
   return text.toLowerCase().replace(/\s+/g, "");
 }
 
-export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
+export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[]; subforumId: string | null; subforumName: string | null } {
   const root = parse(raw);
   const post = root.querySelector("tr.newsPost") ?? root.querySelector("tr.staff") ?? null;
-  if (!post) return { html: "", toc: [] };
+  if (!post) return { html: "", toc: [], subforumId: null, subforumName: null };
+
+  const breadcrumbLink = root.querySelector('div.breadcrumb a[href*="view-forum"]');
+  const subforumId = breadcrumbLink?.getAttribute("href")?.match(/view-forum\/([^/?#]+)/)?.[1] ?? null;
+  const subforumName = breadcrumbLink?.text?.trim() ?? null;
 
   post.querySelectorAll(".posted-by").forEach((el) => el.remove());
 
@@ -96,7 +100,7 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[] } {
     }
   }
 
-  return { html: contentEl.innerHTML, toc };
+  return { html: contentEl.innerHTML, toc, subforumId, subforumName };
 }
 
 export interface ThreadLink {
@@ -104,6 +108,22 @@ export interface ThreadLink {
   title: string;
   createdAt: string;
   author: string | null;
+}
+
+export function extractForumName(html: string): string | null {
+  const root = parse(html);
+  const breadcrumb = root.querySelector("div.breadcrumb");
+  if (!breadcrumb) return null;
+  const span = breadcrumb.querySelector("span.separator");
+  if (!span) {
+    const txt = breadcrumb.text.trim();
+    return txt || null;
+  }
+  const idx = breadcrumb.innerHTML.indexOf("</span>");
+  if (idx === -1) return null;
+  const after = breadcrumb.innerHTML.slice(idx + "</span>".length).trim();
+  const name = after.replace(/<[^>]+>/g, "").trim();
+  return name || null;
 }
 
 export function parseThreadList(html: string, lang: Lang = "en"): ThreadLink[] {

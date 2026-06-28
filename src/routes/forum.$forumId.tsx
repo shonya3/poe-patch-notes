@@ -17,13 +17,8 @@ export const Route = createFileRoute("/forum/$forumId")({
 });
 
 function ForumPage() {
-  const { threads, forumId, page } = Route.useLoaderData();
-  const label =
-    forumId === "2212"
-      ? "English Patch Notes"
-      : forumId === "2272"
-        ? "Russian Patch Notes"
-        : `Forum ${forumId}`;
+  const { threads, forumName, forumId, page } = Route.useLoaderData();
+  const label = forumName ?? `Forum ${forumId}`;
   return (
     <div className="container">
       <h1>{label}</h1>

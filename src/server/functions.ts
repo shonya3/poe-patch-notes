@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { cleanThreadHtml, parseThreadList, type TocItem, type ThreadLink } from "./parser";
+import { cleanThreadHtml, extractForumName, parseThreadList, type TocItem, type ThreadLink } from "./parser";
 import { object, pipe, string, minLength, number, minValue } from "valibot";
 
 const FORUM_BASE = "https://www.pathofexile.com/forum";
@@ -24,20 +24,21 @@ export const getForumThreadsFn = createServerFn({ method: "GET" })
 
     const cached = await cache.match(url);
     if (cached) {
-      const json: { threads: ThreadLink[] } = await cached.json();
+      const json: Record<string, unknown> = await cached.json();
       console.log(`[forum-cache] HIT ${logUrl(url)}`);
-      return { ...json, forumId: data.forumId, page: data.page };
+      return { threads: json.threads as ThreadLink[], forumName: (json.forumName as string) ?? null, forumId: data.forumId, page: data.page };
     }
 
     console.log(`[forum-cache] MISS ${logUrl(url)}`);
     const raw = await fetchForumHtml(url);
     const threads = parseThreadList(raw);
-    const cachedRes = new Response(JSON.stringify({ threads }), {
+    const forumName = extractForumName(raw);
+    const cachedRes = new Response(JSON.stringify({ threads, forumName }), {
       headers: { "Cache-Control": "public, s-maxage=10" },
     });
     await cache.put(url, cachedRes);
     console.log(`[forum-cache] STORE ${logUrl(url)}`);
-    return { threads, forumId: data.forumId, page: data.page };
+    return { threads, forumName, forumId: data.forumId, page: data.page };
   });
 
 const ThreadContentSchema = object({
@@ -52,18 +53,18 @@ export const getThreadContentFn = createServerFn({ method: "GET" })
 
     const cached = await cache.match(url);
     if (cached) {
-      const json: { content: string; toc: TocItem[] } = await cached.json();
-      console.log(`[thread-cache] HIT ${logUrl(url)} (${json.content.length} B)`);
-      return { ...json, forumUrl: url };
+      const json: Record<string, unknown> = await cached.json();
+      console.log(`[thread-cache] HIT ${logUrl(url)} (${String(json.content).length} B)`);
+      return { content: json.content as string, toc: json.toc as TocItem[], forumUrl: url, subforumId: (json.subforumId as string) ?? null, subforumName: (json.subforumName as string) ?? null };
     }
 
     console.log(`[thread-cache] MISS ${logUrl(url)}`);
     const raw = await fetchForumHtml(url);
-    const { html: content, toc } = cleanThreadHtml(raw);
-    const cachedRes = new Response(JSON.stringify({ content, toc }), {
+    const { html: content, toc, subforumId, subforumName } = cleanThreadHtml(raw);
+    const cachedRes = new Response(JSON.stringify({ content, toc, subforumId, subforumName }), {
       headers: { "Cache-Control": "public, s-maxage=7200" },
     });
     await cache.put(url, cachedRes);
     console.log(`[thread-cache] STORE ${logUrl(url)} (${content.length} B)`);
-    return { content, toc, forumUrl: url };
+    return { content, toc, forumUrl: url, subforumId, subforumName };
   });
