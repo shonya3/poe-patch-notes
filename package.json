@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "fmt": "oxfmt",
-    "check": "tsgo --noEmit && oxlint",
+    "check": "tsc --noEmit && oxlint",
     "test": "vitest run"
   },
   "dependencies": {
@@ -24,10 +24,10 @@
     "@cloudflare/vite-plugin": "1.41",
     "@types/react": "^19.2",
     "@types/react-dom": "^19.2",
-    "@typescript/native-preview": "7.0.0-dev.20260526.1",
     "@vitejs/plugin-react": "^6.0.1",
     "oxfmt": "^0.55.0",
     "oxlint": "^1.70.0",
+    "typescript": "^7.0.2",
     "vite": "^8.0",
     "vite-plugin-typed-css-modules": "^0.5.3",
     "vitest": "^4.1.9",
