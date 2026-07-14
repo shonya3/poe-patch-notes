@@ -2,6 +2,8 @@ import { HeadContent, Link, Scripts, createRootRoute } from "@tanstack/react-rou
 import * as React from "react";
 import { Nav } from "~/components/Nav";
 import { COLOR_SCHEME_KEY, getThemeFn } from "~/features/theme";
+import { TanStackDevtools } from "@tanstack/react-devtools";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import appCss from "~/styles/app.css?url";
 
 export const Route = createRootRoute({
@@ -41,6 +43,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Nav />
         <main className="main">{children}</main>
         <Scripts />
+        <TanStackDevtools
+          plugins={[
+            {
+              name: "TanStack Router",
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+          ]}
+        />
       </body>
     </html>
   );
