@@ -1,12 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { fallback, object, picklist } from "valibot";
 import { getThreadContentFn } from "~/server/functions";
 import { TocSidebar } from "~/components/TocSidebar";
 import { PATCH_NOTES_0_5_THREAD_IDS } from "~/consts";
 import threadProseCss from "./thread-prose.css?url";
 
+const ThreadSearchSchema = object({ lang: fallback(picklist(["en", "ru"]), "en") });
+
 export const Route = createFileRoute("/thread/$threadId")({
-  loader: async ({ params }) => {
-    return getThreadContentFn({ data: { threadId: params.threadId } });
+  validateSearch: ThreadSearchSchema,
+  loaderDeps: ({ search: { lang } }) => ({ lang }),
+  loader: async ({ params, deps }) => {
+    return { ...(await getThreadContentFn({ data: { threadId: params.threadId } })), lang: deps.lang };
   },
   component: ThreadPage,
   head: ({ params }) => ({
@@ -18,12 +23,12 @@ export const Route = createFileRoute("/thread/$threadId")({
 });
 
 function ThreadPage() {
-  const { content, toc, forumUrl, subforumId, subforumName } = Route.useLoaderData();
+  const { content, toc, forumUrl, subforumId, subforumName, lang } = Route.useLoaderData();
   return (
     <div className="container thread-layout">
       <div className="thread-content">
         {subforumId && subforumName && (
-          <Link to="/forum/$forumId" params={{ forumId: subforumId }} search={{ page: 1 }} className="forum-breadcrumb">
+          <Link to="/forum/$forumId" params={{ forumId: subforumId }} search={{ page: 1, lang }} className="forum-breadcrumb">
             ← {subforumName}
           </Link>
         )}

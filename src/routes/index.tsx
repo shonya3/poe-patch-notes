@@ -7,9 +7,13 @@ export const Route = createFileRoute("/")({
 });
 
 const subforums = [
-  { id: "2212", name: "English Patch Notes" },
-  { id: "2272", name: "Russian Patch Notes" },
-];
+  { id: "2212", name: "Early Access Patch Notes (EN)", lang: "en" },
+  { id: "2272", name: "Списки изменений в раннем доступе (RU)", lang: "ru" },
+  { id: "patch-notes", name: "Patch Notes (PoE1)", lang: "en" },
+  { id: "patch-notes", name: "Списки изменений (PoE1)", lang: "ru" },
+  { id: "news", name: "News (PoE1)", lang: "en" },
+  { id: "news", name: "Новости (PoE1)", lang: "ru" },
+] as const;
 
 const FEATURED_LINKS = [
   {
@@ -34,9 +38,9 @@ function Home() {
       <div className={styles.forumCards}>
         {subforums.map((sf) => (
           <Link
-            key={sf.id}
+            key={`${sf.lang}-${sf.id}`}
             to="/forum/$forumId"
-            search={{ page: 1 }}
+            search={{ page: 1, lang: sf.lang }}
             params={{ forumId: sf.id }}
             className={styles.forumCard}
           >

@@ -9,7 +9,7 @@ export type FeaturedLinkProps = {
 
 export function FeaturedLink({ id, title, label }: FeaturedLinkProps) {
   return (
-    <Link to="/thread/$threadId" params={{ threadId: id }} className={styles.featuredLink}>
+    <Link to="/thread/$threadId" params={{ threadId: id }} search={{ lang: "en" }} className={styles.featuredLink}>
       <span className={styles.featuredLabel}>{label}</span>
       <span className={styles.featuredTitle}>{title}</span>
       <span className={styles.featuredArrow}>→</span>
