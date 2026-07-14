@@ -94,9 +94,11 @@ function Home() {
             </>
           )}
       </section>
-      {forumGroups.map((group) => (
+      <section className={styles.section}>
+        <h2 className={styles.forumsHeading}>Forums</h2>
+        {forumGroups.map((group) => (
         <div key={group.label} className={styles.forumGroup}>
-          <h2 className={styles.forumsHeading}>{group.label}</h2>
+          <h3 className={styles.groupHeading}>{group.label}</h3>
           <div className={styles.forumCards}>
             {group.forums.map((forum) => (
               <div key={forum.name} className={styles.formCard}>
@@ -124,6 +126,7 @@ function Home() {
           </div>
         </div>
       ))}
+      </section>
     </div>
   );
 }

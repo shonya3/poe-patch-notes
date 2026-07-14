@@ -1,4 +1,3 @@
-
 .feed {
   list-style: none;
 }
@@ -25,16 +24,25 @@
 }
 
 .forumGroup {
-  margin-top: 2rem;
+  & + & {
+    margin-top: 12px;
+  }
 }
 
 .forumsHeading {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--muted);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+.groupHeading {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 8px;
 }
 
 .forumCards {
@@ -86,8 +94,7 @@
   color: var(--link);
   background: color-mix(in srgb, var(--link) 14%, transparent);
   border-left: 1px solid var(--border);
-  transition:
-    background 0.15s;
+  transition: background 0.15s;
 
   &:first-child {
     border-left: 1px solid var(--border);
