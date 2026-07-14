@@ -52,9 +52,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-.main {
-  padding-top: 20px;
-}
 
 .container {
   max-width: 700px;

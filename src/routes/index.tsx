@@ -72,10 +72,13 @@ function Home() {
   const preview = filtered.slice(0, 5);
   return (
     <div className="container">
-      {FEATURED_LINKS.map(({ id, label, title }) => (
-        <FeaturedLink key={id} id={id} label={label} title={title} />
-      ))}
-      <section className={styles.feedSection}>
+      <section className={styles.section}>
+        <h2 className={styles.forumsHeading}>Featured</h2>
+        {FEATURED_LINKS.map(({ id, label, title }) => (
+          <FeaturedLink key={id} id={id} label={label} title={title} />
+        ))}
+      </section>
+      <section className={styles.section}>
         <h2 className={styles.forumsHeading}>Latest</h2>
         <GroupFilter groups={GROUPS} active={active} onToggle={toggle} />
         {filtered.length === 0
