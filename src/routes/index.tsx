@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import styles from "./index.module.css";
 import { FeaturedLink } from "~/components/featured-thread-link";
+import { GroupFilter } from "~/components/GroupFilter";
 import { LatestFeedItem } from "~/components/LatestFeedItem";
 import { getLatestThreads, type FeedThread } from "~/server/functions";
 
@@ -56,25 +58,39 @@ const FEATURED_LINKS = [
   },
 ] as const;
 
+const GROUPS = ["PoE1", "PoE2"] as const;
+
 function Home() {
   const feed = Route.useLoaderData();
-  const preview = feed.slice(0, 5);
+  const [active, setActive] = useState<Set<string>>(() => new Set(GROUPS));
+  const toggle = (g: string) => {
+    const next = new Set(active);
+    if (next.has(g)) next.delete(g); else next.add(g);
+    setActive(next);
+  };
+  const filtered = feed.filter((t) => active.has(t.groupLabel));
+  const preview = filtered.slice(0, 5);
   return (
     <div className="container">
       {FEATURED_LINKS.map(({ id, label, title }) => (
         <FeaturedLink key={id} id={id} label={label} title={title} />
       ))}
-      {preview.length > 0 && (
-        <section className={styles.feedSection}>
-          <h2 className={styles.forumsHeading}>Latest</h2>
-          <ul className={styles.feed}>
-            {preview.map((t: FeedThread) => (
-              <LatestFeedItem key={`${t.lang}-${t.id}`} t={t} />
-            ))}
-          </ul>
-          <Link to="/latest" className={styles.viewAll}>View all →</Link>
-        </section>
-      )}
+      <section className={styles.feedSection}>
+        <h2 className={styles.forumsHeading}>Latest</h2>
+        <GroupFilter groups={GROUPS} active={active} onToggle={toggle} />
+        {filtered.length === 0
+          ? <p className={styles.empty}>No threads found in the last 30 days.</p>
+          : (
+            <>
+              <ul className={styles.feed}>
+                {preview.map((t: FeedThread) => (
+                  <LatestFeedItem key={`${t.lang}-${t.id}`} t={t} />
+                ))}
+              </ul>
+              <Link to="/latest" className={styles.viewAll}>View all →</Link>
+            </>
+          )}
+      </section>
       {forumGroups.map((group) => (
         <div key={group.label} className={styles.forumGroup}>
           <h2 className={styles.forumsHeading}>{group.label}</h2>

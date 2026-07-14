@@ -1,0 +1,31 @@
+.bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.btn {
+  padding: 6px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+
+  &:hover {
+    border-color: var(--link);
+    color: var(--link);
+  }
+}
+
+.active {
+  background: color-mix(in srgb, var(--link) 12%, transparent);
+  border-color: var(--link);
+  color: var(--link);
+}

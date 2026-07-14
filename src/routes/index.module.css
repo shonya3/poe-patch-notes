@@ -6,6 +6,11 @@
   list-style: none;
 }
 
+.empty {
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .viewAll {
   display: inline-block;
   margin-top: 8px;
