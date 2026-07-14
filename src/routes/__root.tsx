@@ -41,7 +41,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <Nav />
-        <main>{children}</main>
+        <main className="main">{children}</main>
         <Scripts />
         <TanStackDevtools
           plugins={[

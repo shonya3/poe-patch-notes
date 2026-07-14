@@ -53,6 +53,10 @@ body {
 }
 
 
+.main {
+  padding-top: 1.25rem;
+}
+
 .container {
   max-width: 700px;
   margin: 0 auto;
