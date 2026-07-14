@@ -1,3 +1,9 @@
+.forumGroup {
+  & + & {
+    margin-top: 24px;
+  }
+}
+
 .forumsHeading {
   margin-top: 2rem;
   font-size: 14px;

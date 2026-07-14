@@ -6,14 +6,24 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const subforums = [
-  { id: "2212", name: "Early Access Patch Notes (EN)", lang: "en" },
-  { id: "2272", name: "Списки изменений в раннем доступе (RU)", lang: "ru" },
-  { id: "patch-notes", name: "Patch Notes (PoE1)", lang: "en" },
-  { id: "patch-notes", name: "Списки изменений (PoE1)", lang: "ru" },
-  { id: "news", name: "News (PoE1)", lang: "en" },
-  { id: "news", name: "Новости (PoE1)", lang: "ru" },
-] as const;
+const forumGroups = [
+  {
+    label: "PoE2 Early Access",
+    forums: [
+      { id: "2212", name: "Patch Notes (EN)", lang: "en" as const },
+      { id: "2272", name: "Списки изменений (RU)", lang: "ru" as const },
+    ],
+  },
+  {
+    label: "PoE1",
+    forums: [
+      { id: "patch-notes", name: "Patch Notes (EN)", lang: "en" as const },
+      { id: "patch-notes", name: "Списки изменений (RU)", lang: "ru" as const },
+      { id: "news", name: "News (EN)", lang: "en" as const },
+      { id: "news", name: "Новости (RU)", lang: "ru" as const },
+    ],
+  },
+];
 
 const FEATURED_LINKS = [
   {
@@ -34,21 +44,25 @@ function Home() {
       {FEATURED_LINKS.map(({ id, label, title }) => (
         <FeaturedLink key={id} id={id} label={label} title={title} />
       ))}
-      <h2 className={styles.forumsHeading}>Forums</h2>
-      <div className={styles.forumCards}>
-        {subforums.map((sf) => (
-          <Link
-            key={`${sf.lang}-${sf.id}`}
-            to="/forum/$forumId"
-            search={{ page: 1, lang: sf.lang }}
-            params={{ forumId: sf.id }}
-            className={styles.forumCard}
-          >
-            <span className={styles.forumCardTitle}>{sf.name}</span>
-            <span className={styles.forumCardArrow}>→</span>
-          </Link>
-        ))}
-      </div>
+      {forumGroups.map((group) => (
+        <div key={group.label} className={styles.forumGroup}>
+          <h2 className={styles.forumsHeading}>{group.label}</h2>
+          <div className={styles.forumCards}>
+            {group.forums.map((sf) => (
+              <Link
+                key={`${sf.lang}-${sf.id}`}
+                to="/forum/$forumId"
+                search={{ page: 1, lang: sf.lang }}
+                params={{ forumId: sf.id }}
+                className={styles.forumCard}
+              >
+                <span className={styles.forumCardTitle}>{sf.name}</span>
+                <span className={styles.forumCardArrow}>→</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
