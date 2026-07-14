@@ -76,6 +76,8 @@ export type FeedThread = {
 const LATEST_SOURCES = [
   { forumId: "2212", lang: "en", groupLabel: "PoE2", forumLabel: "Patch Notes" },
   { forumId: "2272", lang: "ru", groupLabel: "PoE2", forumLabel: "Списки изменений" },
+  { forumId: "2211", lang: "en", groupLabel: "PoE2", forumLabel: "News" },
+  { forumId: "2271", lang: "ru", groupLabel: "PoE2", forumLabel: "Новости" },
   { forumId: "patch-notes", lang: "en", groupLabel: "PoE1", forumLabel: "Patch Notes" },
   { forumId: "patch-notes", lang: "ru", groupLabel: "PoE1", forumLabel: "Списки изменений" },
   { forumId: "news", lang: "en", groupLabel: "PoE1", forumLabel: "News" },

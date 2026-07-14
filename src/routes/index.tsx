@@ -13,18 +13,6 @@ export const Route = createFileRoute("/")({
 
 const forumGroups = [
   {
-    label: "PoE2 Early Access",
-    forums: [
-      {
-        name: "Patch Notes",
-        opts: [
-          { id: "2212", lang: "en" },
-          { id: "2272", lang: "ru" },
-        ],
-      },
-    ],
-  },
-  {
     label: "PoE1",
     forums: [
       {
@@ -39,6 +27,25 @@ const forumGroups = [
         opts: [
           { id: "patch-notes", lang: "en" },
           { id: "patch-notes", lang: "ru" },
+        ],
+      },
+    ],
+  },
+  {
+    label: "PoE2 Early Access",
+    forums: [
+      {
+        name: "Patch Notes",
+        opts: [
+          { id: "2212", lang: "en" },
+          { id: "2272", lang: "ru" },
+        ],
+      },
+      {
+        name: "News",
+        opts: [
+          { id: "2211", lang: "en" },
+          { id: "2271", lang: "ru" },
         ],
       },
     ],
