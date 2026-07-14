@@ -25,7 +25,7 @@
 }
 
 .active {
-  background: color-mix(in srgb, var(--link) 12%, transparent);
+  background: light-dark(color-mix(in srgb, var(--link) 3%, transparent), color-mix(in srgb, var(--link) 6%, transparent));
   border-color: var(--link);
   color: var(--link);
 }
