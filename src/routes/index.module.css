@@ -30,7 +30,7 @@
 }
 
 .forumsHeading {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -92,7 +92,10 @@
   letter-spacing: 0.05em;
   text-decoration: none;
   color: var(--link);
-  background: light-dark(color-mix(in srgb, var(--link) 3%, transparent), color-mix(in srgb, var(--link) 6%, transparent));
+  background: light-dark(
+    color-mix(in srgb, var(--link) 3%, transparent),
+    color-mix(in srgb, var(--link) 6%, transparent)
+  );
   border-left: 1px solid var(--border);
   transition: background 0.15s;
 
