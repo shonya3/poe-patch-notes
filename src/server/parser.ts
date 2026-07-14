@@ -157,6 +157,19 @@ const RU_MONTHS = ["янв.", "февр.", "мар.", "апр.", "мая", "ию
 
 export type Lang = "en" | "ru";
 
+// Converts an ISO date string to a relative time label like "3h ago" or "2d ago".
+// Runs server-side during SSR; uses the worker's Date.now() so clock skew may
+// cause slight inaccuracy vs the user's local time (negligible in production).
+export function timeAgo(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime();
+  if (diff < 0) return "";
+  const hours = Math.floor(diff / 3600000);
+  if (hours < 1) return "just now";
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+}
+
 export function parseForumDate(lang: Lang, str: string): string {
   let s = str;
 

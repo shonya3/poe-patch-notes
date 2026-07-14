@@ -1,8 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import styles from "./index.module.css";
 import { FeaturedLink } from "~/components/featured-thread-link";
+import { LatestFeedItem } from "~/components/LatestFeedItem";
+import { getLatestThreads, type FeedThread } from "~/server/functions";
 
 export const Route = createFileRoute("/")({
+  loader: async () => getLatestThreads(),
   component: Home,
 });
 
@@ -54,11 +57,24 @@ const FEATURED_LINKS = [
 ] as const;
 
 function Home() {
+  const feed = Route.useLoaderData();
+  const preview = feed.slice(0, 5);
   return (
     <div className="container">
       {FEATURED_LINKS.map(({ id, label, title }) => (
         <FeaturedLink key={id} id={id} label={label} title={title} />
       ))}
+      {preview.length > 0 && (
+        <section className={styles.feedSection}>
+          <h2 className={styles.forumsHeading}>Latest</h2>
+          <ul className={styles.feed}>
+            {preview.map((t: FeedThread) => (
+              <LatestFeedItem key={`${t.lang}-${t.id}`} t={t} />
+            ))}
+          </ul>
+          <Link to="/latest" className={styles.viewAll}>View all →</Link>
+        </section>
+      )}
       {forumGroups.map((group) => (
         <div key={group.label} className={styles.forumGroup}>
           <h2 className={styles.forumsHeading}>{group.label}</h2>

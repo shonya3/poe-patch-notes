@@ -1,3 +1,23 @@
+.feedSection {
+  margin-top: 24px;
+}
+
+.feed {
+  list-style: none;
+}
+
+.viewAll {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--link);
+  }
+}
+
 .forumGroup {
   & + & {
     margin-top: 24px;

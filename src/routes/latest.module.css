@@ -1,0 +1,27 @@
+.backLink {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--link);
+  }
+}
+
+.heading {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.feed {
+  list-style: none;
+}

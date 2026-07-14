@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LatestRouteImport } from './routes/latest'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ThreadThreadIdRouteImport } from './routes/thread.$threadId'
 import { Route as ForumForumIdRouteImport } from './routes/forum.$forumId'
 
+const LatestRoute = LatestRouteImport.update({
+  id: '/latest',
+  path: '/latest',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,36 +37,47 @@ const ForumForumIdRoute = ForumForumIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/latest': typeof LatestRoute
   '/forum/$forumId': typeof ForumForumIdRoute
   '/thread/$threadId': typeof ThreadThreadIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/latest': typeof LatestRoute
   '/forum/$forumId': typeof ForumForumIdRoute
   '/thread/$threadId': typeof ThreadThreadIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/latest': typeof LatestRoute
   '/forum/$forumId': typeof ForumForumIdRoute
   '/thread/$threadId': typeof ThreadThreadIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/forum/$forumId' | '/thread/$threadId'
+  fullPaths: '/' | '/latest' | '/forum/$forumId' | '/thread/$threadId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/forum/$forumId' | '/thread/$threadId'
-  id: '__root__' | '/' | '/forum/$forumId' | '/thread/$threadId'
+  to: '/' | '/latest' | '/forum/$forumId' | '/thread/$threadId'
+  id: '__root__' | '/' | '/latest' | '/forum/$forumId' | '/thread/$threadId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LatestRoute: typeof LatestRoute
   ForumForumIdRoute: typeof ForumForumIdRoute
   ThreadThreadIdRoute: typeof ThreadThreadIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/latest': {
+      id: '/latest'
+      path: '/latest'
+      fullPath: '/latest'
+      preLoaderRoute: typeof LatestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LatestRoute: LatestRoute,
   ForumForumIdRoute: ForumForumIdRoute,
   ThreadThreadIdRoute: ThreadThreadIdRoute,
 }
