@@ -19,6 +19,8 @@ export const Route = createFileRoute("/forum/$forumId")({
 
 function ForumPage() {
   const { threads, forumName, forumId, page, lang } = Route.useLoaderData();
+
+  console.log(threads[0]);
   const label = forumName ?? `Forum ${forumId}`;
   return (
     <div className="container">
@@ -30,6 +32,15 @@ function ForumPage() {
             <Link to="/thread/$threadId" params={{ threadId: t.id }} search={{ lang }}>
               {t.title}
             </Link>
+            {t.createdAt && (
+              <span className={styles.date}>
+                {new Date(t.createdAt).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </span>
+            )}
           </li>
         ))}
       </ul>
