@@ -20,31 +20,68 @@
   gap: 8px;
 }
 
-.forumCard {
+.formCard {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 14px 18px;
-  border-radius: 10px;
   border: 1px solid var(--border);
-  text-decoration: none;
-  color: var(--prose-heading-color);
-  transition:
-    border-color 0.15s,
-    background 0.15s;
-
-  &:hover {
-    border-color: var(--link);
-    background: color-mix(in srgb, var(--link) 5%, transparent);
-  }
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.forumCardTitle {
+.formName {
+  flex: 1;
   font-weight: 600;
   font-size: 15px;
+  padding: 14px 18px;
+  color: var(--prose-heading-color);
 }
 
-.forumCardArrow {
-  color: var(--muted);
-  font-size: 16px;
+.formLangs {
+  flex: 3;
+  display: flex;
+  align-self: stretch;
+}
+
+.formLangText {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--link);
+}
+
+.formLangLink {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 80px;
+  padding: 16px 12px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  color: var(--link);
+  background: color-mix(in srgb, var(--link) 14%, transparent);
+  border-left: 1px solid var(--border);
+  transition:
+    background 0.15s;
+
+  &:first-child {
+    border-left: 1px solid var(--border);
+  }
+
+  &:hover {
+    background: color-mix(in srgb, var(--link) 28%, transparent);
+  }
+
+  &::after {
+    content: "→";
+    font-size: 13px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  &:hover::after {
+    opacity: 0.7;
+  }
 }

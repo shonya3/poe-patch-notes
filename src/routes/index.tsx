@@ -10,20 +10,35 @@ const forumGroups = [
   {
     label: "PoE2 Early Access",
     forums: [
-      { id: "2212", name: "Patch Notes (EN)", lang: "en" as const },
-      { id: "2272", name: "Списки изменений (RU)", lang: "ru" as const },
+      {
+        name: "Patch Notes",
+        opts: [
+          { id: "2212", lang: "en" },
+          { id: "2272", lang: "ru" },
+        ],
+      },
     ],
   },
   {
     label: "PoE1",
     forums: [
-      { id: "patch-notes", name: "Patch Notes (EN)", lang: "en" as const },
-      { id: "patch-notes", name: "Списки изменений (RU)", lang: "ru" as const },
-      { id: "news", name: "News (EN)", lang: "en" as const },
-      { id: "news", name: "Новости (RU)", lang: "ru" as const },
+      {
+        name: "News",
+        opts: [
+          { id: "news", lang: "en" },
+          { id: "news", lang: "ru" },
+        ],
+      },
+      {
+        name: "Patch Notes",
+        opts: [
+          { id: "patch-notes", lang: "en" },
+          { id: "patch-notes", lang: "ru" },
+        ],
+      },
     ],
   },
-];
+] as const;
 
 const FEATURED_LINKS = [
   {
@@ -48,17 +63,28 @@ function Home() {
         <div key={group.label} className={styles.forumGroup}>
           <h2 className={styles.forumsHeading}>{group.label}</h2>
           <div className={styles.forumCards}>
-            {group.forums.map((sf) => (
-              <Link
-                key={`${sf.lang}-${sf.id}`}
-                to="/forum/$forumId"
-                search={{ page: 1, lang: sf.lang }}
-                params={{ forumId: sf.id }}
-                className={styles.forumCard}
-              >
-                <span className={styles.forumCardTitle}>{sf.name}</span>
-                <span className={styles.forumCardArrow}>→</span>
-              </Link>
+            {group.forums.map((forum) => (
+              <div key={forum.name} className={styles.formCard}>
+                <span className={styles.formName}>{forum.name}</span>
+                <div className={styles.formLangs}>
+                  <Link
+                    to="/forum/$forumId"
+                    search={{ page: 1, lang: "en" }}
+                    params={{ forumId: forum.opts.find((o) => o.lang === "en")!.id }}
+                    className={styles.formLangLink}
+                  >
+                    <span className={styles.formLangText}>EN</span>
+                  </Link>
+                  <Link
+                    to="/forum/$forumId"
+                    search={{ page: 1, lang: "ru" }}
+                    params={{ forumId: forum.opts.find((o) => o.lang === "ru")!.id }}
+                    className={styles.formLangLink}
+                  >
+                    <span className={styles.formLangText}>RU</span>
+                  </Link>
+                </div>
+              </div>
             ))}
           </div>
         </div>
