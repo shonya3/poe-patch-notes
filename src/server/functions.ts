@@ -84,42 +84,41 @@ const LATEST_SOURCES = [
   { forumId: "news", lang: "ru", groupLabel: "PoE1", forumLabel: "Новости" },
 ] as const;
 
-export const getLatestThreads = createServerFn({ method: "GET" })
-  .handler(async () => {
-    const results = await Promise.allSettled(
-      LATEST_SOURCES.map((s) => fetchForumThreads(s.forumId, s.lang, 1)),
-    );
+export const getLatestThreads = createServerFn({ method: "GET" }).handler(async () => {
+  const results = await Promise.allSettled(
+    LATEST_SOURCES.map((s) => fetchForumThreads(s.forumId, s.lang, 1)),
+  );
 
-    const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
-    const feed: FeedThread[] = [];
+  const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
+  const feed: FeedThread[] = [];
 
-    for (let i = 0; i < LATEST_SOURCES.length; i++) {
-      const res = results[i];
-      if (res.status === "rejected") {
-        console.error(
-          `[latest-feed] FAIL ${LATEST_SOURCES[i].groupLabel} ${LATEST_SOURCES[i].forumId} ${LATEST_SOURCES[i].lang}`,
-          res.reason,
-        );
-        continue;
-      }
-      for (const t of res.value.threads) {
-        const ms = new Date(t.createdAt).getTime();
-        if (!t.createdAt || isNaN(ms) || ms < cutoff) continue;
-        feed.push({
-          id: t.id,
-          title: t.title,
-          createdAt: t.createdAt,
-          forumId: LATEST_SOURCES[i].forumId,
-          lang: LATEST_SOURCES[i].lang,
-          groupLabel: LATEST_SOURCES[i].groupLabel,
-          forumLabel: LATEST_SOURCES[i].forumLabel,
-        });
-      }
+  for (let i = 0; i < LATEST_SOURCES.length; i++) {
+    const res = results[i];
+    if (res.status === "rejected") {
+      console.error(
+        `[latest-feed] FAIL ${LATEST_SOURCES[i].groupLabel} ${LATEST_SOURCES[i].forumId} ${LATEST_SOURCES[i].lang}`,
+        res.reason,
+      );
+      continue;
     }
+    for (const t of res.value.threads) {
+      const ms = new Date(t.createdAt).getTime();
+      if (!t.createdAt || isNaN(ms) || ms < cutoff) continue;
+      feed.push({
+        id: t.id,
+        title: t.title,
+        createdAt: t.createdAt,
+        forumId: LATEST_SOURCES[i].forumId,
+        lang: LATEST_SOURCES[i].lang,
+        groupLabel: LATEST_SOURCES[i].groupLabel,
+        forumLabel: LATEST_SOURCES[i].forumLabel,
+      });
+    }
+  }
 
-    feed.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    return feed;
-  });
+  feed.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  return feed;
+});
 
 const ThreadContentSchema = object({
   threadId: pipe(string(), minLength(1)),

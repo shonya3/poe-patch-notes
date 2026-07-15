@@ -1,0 +1,51 @@
+.skeleton {
+  list-style: none;
+}
+
+.item {
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+}
+
+.title {
+  height: 14px;
+  width: 75%;
+  margin-bottom: 6px;
+  border-radius: 4px;
+  background: var(--border);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge {
+  height: 11px;
+  width: 130px;
+  border-radius: 4px;
+  background: var(--border);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.time {
+  height: 11px;
+  width: 55px;
+  margin-left: auto;
+  border-radius: 4px;
+  background: var(--border);
+  animation: pulse 1.5s ease-in-out infinite;
+  animation-delay: 0.2s;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
