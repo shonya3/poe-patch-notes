@@ -20,7 +20,6 @@ export const Route = createFileRoute("/forum/$forumId")({
 function ForumPage() {
   const { threads, forumName, forumId, page, lang } = Route.useLoaderData();
 
-  console.log(threads[0]);
   const label = forumName ?? `Forum ${forumId}`;
   return (
     <div className="container">
