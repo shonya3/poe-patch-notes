@@ -9,7 +9,9 @@ export function LatestFeedItem({ t }: { t: FeedThread }) {
       <Link to="/thread/$threadId" params={{ threadId: t.id }} search={{ lang: t.lang }}>
         <span className={styles.title}>{t.title}</span>
         <span className={styles.meta}>
-          <span className={styles.badge}>{t.groupLabel} · {t.forumLabel} · {t.lang.toUpperCase()}</span>
+          <span className={styles.badge}>
+            {t.groupLabel} · {t.forumLabel} · {t.lang.toUpperCase()}
+          </span>
           <span className={styles.time}>{timeAgo(t.createdAt)}</span>
         </span>
       </Link>

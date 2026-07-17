@@ -11,7 +11,10 @@ export const Route = createFileRoute("/thread/$threadId")({
   validateSearch: ThreadSearchSchema,
   loaderDeps: ({ search: { lang } }) => ({ lang }),
   loader: async ({ params, deps }) => {
-    return { ...(await getThreadContentFn({ data: { threadId: params.threadId } })), lang: deps.lang };
+    return {
+      ...(await getThreadContentFn({ data: { threadId: params.threadId } })),
+      lang: deps.lang,
+    };
   },
   component: ThreadPage,
   head: ({ params }) => ({
@@ -28,7 +31,12 @@ function ThreadPage() {
     <div className="container thread-layout">
       <div className="thread-content">
         {subforumId && subforumName && (
-          <Link to="/forum/$forumId" params={{ forumId: subforumId }} search={{ page: 1, lang }} className="forum-breadcrumb">
+          <Link
+            to="/forum/$forumId"
+            params={{ forumId: subforumId }}
+            search={{ page: 1, lang }}
+            className="forum-breadcrumb"
+          >
             ← {subforumName}
           </Link>
         )}

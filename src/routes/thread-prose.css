@@ -37,7 +37,9 @@
 }
 
 .thread-content {
-  & h1, & h2, & h3 {
+  & h1,
+  & h2,
+  & h3 {
     margin-top: 24px;
     margin-bottom: 12px;
     font-weight: 600;
@@ -46,15 +48,22 @@
     color: var(--prose-heading-color);
   }
 
-  & h1 { font-size: 22px; }
-  & h2 { font-size: 19px; }
-  & h3 { font-size: 17px; }
+  & h1 {
+    font-size: 22px;
+  }
+  & h2 {
+    font-size: 19px;
+  }
+  & h3 {
+    font-size: 17px;
+  }
 
   & p {
     margin-bottom: 12px;
   }
 
-  & ul, & ol {
+  & ul,
+  & ol {
     margin-bottom: 12px;
     padding-left: 24px;
   }

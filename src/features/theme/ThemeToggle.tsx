@@ -18,7 +18,11 @@ export function ThemeToggle() {
   }, [colorScheme]);
 
   return (
-    <button className={styles.themeToggle} onClick={() => setColorScheme(nextTheme(colorScheme))} type="button">
+    <button
+      className={styles.themeToggle}
+      onClick={() => setColorScheme(nextTheme(colorScheme))}
+      type="button"
+    >
       {colorScheme}
     </button>
   );
