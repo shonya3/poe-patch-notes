@@ -10,13 +10,19 @@ function slugify(text: string): string {
   return text.toLowerCase().replace(/\s+/g, "");
 }
 
-export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[]; subforumId: string | null; subforumName: string | null } {
+export function cleanThreadHtml(raw: string): {
+  html: string;
+  toc: TocItem[];
+  subforumId: string | null;
+  subforumName: string | null;
+} {
   const root = parse(raw);
   const post = root.querySelector("tr.newsPost") ?? root.querySelector("tr.staff") ?? null;
   if (!post) return { html: "", toc: [], subforumId: null, subforumName: null };
 
   const breadcrumbLink = root.querySelector('div.breadcrumb a[href*="view-forum"]');
-  const subforumId = breadcrumbLink?.getAttribute("href")?.match(/view-forum\/([^/?#]+)/)?.[1] ?? null;
+  const subforumId =
+    breadcrumbLink?.getAttribute("href")?.match(/view-forum\/([^/?#]+)/)?.[1] ?? null;
   const subforumName = breadcrumbLink?.text?.trim() ?? null;
 
   post.querySelectorAll(".posted-by").forEach((el) => el.remove());
@@ -64,7 +70,10 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[]; su
     if (el.tagName === "IMG") {
       keep.push("src");
       keep.push("alt");
-      if (el.getAttribute("src") === "https://web.poecdn.com/public/news/2026-05-22/RotAInfographic.png") {
+      if (
+        el.getAttribute("src") ===
+        "https://web.poecdn.com/public/news/2026-05-22/RotAInfographic.png"
+      ) {
         el.setAttribute("src", "/img/RotAInfographic.webp");
       }
     }
@@ -99,6 +108,13 @@ export function cleanThreadHtml(raw: string): { html: string; toc: TocItem[]; su
       }
     }
   }
+
+  // Remove empty <li>
+  contentEl.querySelectorAll("li").forEach((li) => {
+    const text = li.text.trim();
+    const hasMeaningfulChild = li.querySelector("img, a[href]:not([href='#'])");
+    if (!text && !hasMeaningfulChild) li.remove();
+  });
 
   return { html: contentEl.innerHTML, toc, subforumId, subforumName };
 }
@@ -152,8 +168,34 @@ export function parseThreadList(html: string, lang: Lang = "en"): ThreadLink[] {
     .filter((t): t is ThreadLink => t !== null);
 }
 
-const EN_MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
-const RU_MONTHS = ["янв.", "февр.", "мар.", "апр.", "мая", "июн.", "июл.", "авг.", "сент.", "окт.", "нояб.", "дек."];
+const EN_MONTHS = [
+  "jan",
+  "feb",
+  "mar",
+  "apr",
+  "may",
+  "jun",
+  "jul",
+  "aug",
+  "sep",
+  "oct",
+  "nov",
+  "dec",
+];
+const RU_MONTHS = [
+  "янв.",
+  "февр.",
+  "мар.",
+  "апр.",
+  "мая",
+  "июн.",
+  "июл.",
+  "авг.",
+  "сент.",
+  "окт.",
+  "нояб.",
+  "дек.",
+];
 
 export type Lang = "en" | "ru";
 
@@ -192,10 +234,21 @@ export function parseForumDate(lang: Lang, str: string): string {
     let h = Number(m[4]);
     if (m[7] === "PM" && h < 12) h += 12;
     if (m[7] === "AM" && h === 12) h = 0;
-    return new Date(Date.UTC(Number(m[3]), month, Number(m[2]), h, Number(m[5]), Number(m[6]))).toISOString();
+    return new Date(
+      Date.UTC(Number(m[3]), month, Number(m[2]), h, Number(m[5]), Number(m[6])),
+    ).toISOString();
   }
 
   const m = s.match(/^(\d+)\s+(\d+)\s+(\d+),\s+(\d+):(\d+):(\d+)$/);
   if (!m) return "";
-  return new Date(Date.UTC(Number(m[3]), Number(m[2]) - 1, Number(m[1]), Number(m[4]), Number(m[5]), Number(m[6]))).toISOString();
+  return new Date(
+    Date.UTC(
+      Number(m[3]),
+      Number(m[2]) - 1,
+      Number(m[1]),
+      Number(m[4]),
+      Number(m[5]),
+      Number(m[6]),
+    ),
+  ).toISOString();
 }
