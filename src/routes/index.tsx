@@ -12,6 +12,9 @@ export const Route = createFileRoute("/")({
     feedPromise: getLatestThreads(),
   }),
   component: Home,
+  head: () => ({
+    meta: [{ title: "PoE Patch Notes" }],
+  }),
 });
 
 const FORUM_GROUPS = [

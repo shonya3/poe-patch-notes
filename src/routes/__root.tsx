@@ -16,6 +16,7 @@ export const Route = createRootRoute({
   ),
   head: () => ({
     meta: [
+      { title: "PoE Patch Notes" },
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "description", content: "Path of Exile patch notes reader" },

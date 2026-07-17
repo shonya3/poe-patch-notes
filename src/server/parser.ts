@@ -29,10 +29,11 @@ export function cleanThreadHtml(raw: string): {
   toc: TocItem[];
   subforumId: string | null;
   subforumName: string | null;
+  title: string | null;
 } {
   const root = parse(raw);
   const post = root.querySelector("tr.newsPost") ?? root.querySelector("tr.staff") ?? null;
-  if (!post) return { html: "", toc: [], subforumId: null, subforumName: null };
+  if (!post) return { html: "", toc: [], subforumId: null, subforumName: null, title: null };
 
   const breadcrumbLink = root.querySelector('div.breadcrumb a[href*="view-forum"]');
   const subforumId =
@@ -42,6 +43,14 @@ export function cleanThreadHtml(raw: string): {
   post.querySelectorAll(".posted-by").forEach((el) => el.remove());
 
   const contentEl = post.querySelector(".content") || post.querySelector("td:last-child") || post;
+  const pageTitle = root.querySelector("title")?.text?.trim() ?? "";
+  const title = (pageTitle
+    ? pageTitle
+        .replace(/\s*[-–—]\s*Forum\s*[-–—]\s*Path of Exile\s*$/i, "")
+        .replace(/\s*[-–—]\s*Path of Exile\s*$/i, "")
+        .replace(/^[^-]+[-–—]\s*/, "")
+        .trim()
+    : "") || contentEl.querySelector("h1")?.text?.trim() || contentEl.querySelector("h2")?.text?.trim() || null;
 
   contentEl.querySelectorAll("style, script").forEach((el) => el.remove());
 
@@ -127,7 +136,7 @@ export function cleanThreadHtml(raw: string): {
     if (!text && !hasMeaningfulChild) li.remove();
   });
 
-  return { html: contentEl.innerHTML, toc, subforumId, subforumName };
+  return { html: contentEl.innerHTML, toc, subforumId, subforumName, title };
 }
 
 export interface ThreadLink {

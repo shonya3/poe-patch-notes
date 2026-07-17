@@ -15,6 +15,9 @@ export const Route = createFileRoute("/forum/$forumId")({
     getForumThreadsFn({ data: { forumId: params.forumId, page: deps.page, lang: deps.lang } }),
   validateSearch: ForumSearchSchema,
   component: ForumPage,
+  head: ({ loaderData }) => ({
+    meta: [{ title: `${loaderData?.forumName ?? "Forum"} — PoE Patch Notes` }],
+  }),
 });
 
 function ForumPage() {

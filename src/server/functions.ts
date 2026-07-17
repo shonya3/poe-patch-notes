@@ -128,7 +128,7 @@ export const getThreadContentFn = createServerFn({ method: "GET" })
   .inputValidator(ThreadContentSchema)
   .handler(async ({ data }) => {
     const url = `${FORUM_BASES.en}/view-thread/${data.threadId}`;
-    const cache = await caches.open("parsed-thread");
+    const cache = await caches.open("parsed-thread-v2");
 
     const cached = await cache.match(url);
     if (cached) {
@@ -140,16 +140,17 @@ export const getThreadContentFn = createServerFn({ method: "GET" })
         forumUrl: url,
         subforumId: (json.subforumId as string) ?? null,
         subforumName: (json.subforumName as string) ?? null,
+        title: (json.title as string) ?? null,
       };
     }
 
     console.log(`[thread-cache] MISS ${stripHost(url)}`);
     const raw = await fetchForumHtml(url);
-    const { html: content, toc, subforumId, subforumName } = cleanThreadHtml(raw);
-    const cachedRes = new Response(JSON.stringify({ content, toc, subforumId, subforumName }), {
+    const { html: content, toc, subforumId, subforumName, title } = cleanThreadHtml(raw);
+    const cachedRes = new Response(JSON.stringify({ content, toc, subforumId, subforumName, title }), {
       headers: { "Cache-Control": "public, s-maxage=7200" },
     });
     await cache.put(url, cachedRes);
     console.log(`[thread-cache] STORE ${stripHost(url)} (${content.length} B)`);
-    return { content, toc, forumUrl: url, subforumId, subforumName };
+    return { content, toc, forumUrl: url, subforumId, subforumName, title };
   });

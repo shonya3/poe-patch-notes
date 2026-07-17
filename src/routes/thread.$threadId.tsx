@@ -17,10 +17,13 @@ export const Route = createFileRoute("/thread/$threadId")({
     };
   },
   component: ThreadPage,
-  head: ({ params }) => ({
-    meta: (PATCH_NOTES_0_5_THREAD_IDS as readonly string[]).includes(params.threadId)
-      ? [{ property: "og:image", content: "/img/RotAInfographic.webp" }]
-      : [],
+  head: ({ params, loaderData }) => ({
+    meta: [
+      { title: `${loaderData?.title ?? "Thread"} — PoE Patch Notes` },
+      ...((PATCH_NOTES_0_5_THREAD_IDS as readonly string[]).includes(params.threadId)
+        ? [{ property: "og:image", content: "/img/RotAInfographic.webp" }]
+        : []),
+    ],
     links: [{ rel: "stylesheet", href: threadProseCss }],
   }),
 });
