@@ -1,5 +1,19 @@
 import { parse } from "node-html-parser";
 
+const IMAGE_MAP: Record<string, string> = {
+  "https://web.poecdn.com/public/news/2026-05-22/RotAInfographic.png": "/img/RotAInfographic.webp",
+  "https://web.poecdn.com/public/news/2026-07-17/CurseoftheAllflame_Content.png":
+    "/img/3_29/CurseoftheAllflame_Content.webp",
+  "https://web.poecdn.com/public/news/2026-07-14/LeftReliqaurianAsendancy.jpg":
+    "/img/3_29/LeftReliqaurianAsendancy.webp",
+  "https://web.poecdn.com/public/news/2026-07-14/TopReliqaurianAsendancy.jpg":
+    "/img/3_29/TopReliqaurianAsendancy.webp",
+  "https://web.poecdn.com/public/news/2026-07-14/RightReliqaurianAsendancy.jpg":
+    "/img/3_29/RightReliqaurianAsendancy.webp",
+  "https://web.poecdn.com/public/news/2026-07-14/BottomReliqaurianAsendancy.jpg":
+    "/img/3_29/BottomReliqaurianAsendancy.webp",
+};
+
 export interface TocItem {
   id: string;
   text: string;
@@ -70,12 +84,9 @@ export function cleanThreadHtml(raw: string): {
     if (el.tagName === "IMG") {
       keep.push("src");
       keep.push("alt");
-      if (
-        el.getAttribute("src") ===
-        "https://web.poecdn.com/public/news/2026-05-22/RotAInfographic.png"
-      ) {
-        el.setAttribute("src", "/img/RotAInfographic.webp");
-      }
+      const src = el.getAttribute("src") ?? "";
+      const local = IMAGE_MAP[src];
+      if (local) el.setAttribute("src", local);
     }
 
     for (const key of Object.keys(el.attributes)) {
