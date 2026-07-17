@@ -1,21 +1,30 @@
 import { useEffect, useState } from "react";
 import styles from "./ThemeToggle.module.css";
-import { getRouteApi } from "@tanstack/react-router";
+import { COLOR_SCHEME_KEY } from "~/features/theme";
 
 function nextTheme(currentTheme: "dark" | "light"): "dark" | "light" {
   return currentTheme === "dark" ? "light" : "dark";
 }
 
-const routeApi = getRouteApi("__root__");
-
 export function ThemeToggle() {
-  const { scheme } = routeApi.useRouteContext();
-  const [colorScheme, setColorScheme] = useState(scheme);
+  const [mounted, setMounted] = useState(false);
+  const [colorScheme, setColorScheme] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
-    document.cookie = "color-scheme=" + colorScheme + ";path=/;max-age=31536000;samesite=lax";
+    setMounted(true);
+    const actual = document.documentElement.className.includes("color-scheme--light")
+      ? "light"
+      : "dark";
+    setColorScheme(actual);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    localStorage.setItem(COLOR_SCHEME_KEY, colorScheme);
     document.documentElement.className = "color-scheme--" + colorScheme;
-  }, [colorScheme]);
+  }, [colorScheme, mounted]);
+
+  if (!mounted) return null;
 
   return (
     <button

@@ -1,7 +1,7 @@
-import { HeadContent, Link, Scripts, createRootRoute } from "@tanstack/react-router";
+import { HeadContent, Link, ScriptOnce, Scripts, createRootRoute } from "@tanstack/react-router";
 import * as React from "react";
 import { Nav } from "~/components/Nav";
-import { COLOR_SCHEME_KEY, getThemeFn } from "~/features/theme";
+import { themeScript } from "~/features/theme";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import appCss from "~/styles/app.css?url";
@@ -24,19 +24,14 @@ export const Route = createRootRoute({
     ],
     links: [{ rel: "stylesheet", href: appCss }],
   }),
-  beforeLoad: async () => {
-    const scheme = await getThemeFn();
-    return { scheme };
-  },
   shellComponent: RootDocument,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const { scheme } = Route.useRouteContext();
-
   return (
-    <html lang="en" className={`${COLOR_SCHEME_KEY}--${scheme}`}>
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <ScriptOnce>{themeScript}</ScriptOnce>
         <HeadContent />
       </head>
       <body>
