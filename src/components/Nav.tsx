@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import styles from "./Nav.module.css";
 import { ThemeToggle } from "~/features/theme/ThemeToggle";
+import { PATCH_NOTES_THREAD_IDS } from "~/consts";
 
 interface NavLink {
   to: string;
@@ -11,13 +12,13 @@ interface NavLink {
 const NAV_LINKS: NavLink[] = [
   {
     to: "/thread/$threadId",
-    params: { threadId: "3985332" },
-    label: "3.29 EN",
+    params: { threadId: PATCH_NOTES_THREAD_IDS["0.5.0_EN"] },
+    label: "0.5 EN",
   },
   {
     to: "/thread/$threadId",
-    params: { threadId: "3985346" },
-    label: "3.29 RU",
+    params: { threadId: PATCH_NOTES_THREAD_IDS["0.5.0_RU"] },
+    label: "0.5 RU",
   },
 ];
 

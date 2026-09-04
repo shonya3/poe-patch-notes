@@ -60,14 +60,14 @@ const FORUM_GROUPS = [
 
 const FEATURED_LINKS = [
   {
-    id: "3985332",
-    label: "3.29 Patch Notes — EN",
-    title: "Content Update 3.29.0 — Path of Exile: Curse of the Allflame",
+    id: "4000864",
+    label: "0.5.5 Patch Notes — EN",
+    title: "Content Update 0.5.5 — Path of Exile 2: Forbidden Rites",
   },
   {
-    id: "3985346",
-    label: "3.29 Patch Notes — RU",
-    title: "Обновление 3.29.0 - Path of Exile: Проклятие Всепламени",
+    id: "4000889",
+    label: "0.5.5 Patch Notes — RU",
+    title: "Обновление 0.5.5 — Path of Exile 2: Запретные ритуалы",
   },
 ] as const;
 

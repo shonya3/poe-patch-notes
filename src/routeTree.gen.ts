@@ -9,29 +9,29 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as LatestRouteImport } from './routes/latest'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ThreadThreadIdRouteImport } from './routes/thread.$threadId'
+import { Route as LatestRouteImport } from './routes/latest'
 import { Route as ForumForumIdRouteImport } from './routes/forum.$forumId'
+import { Route as ThreadThreadIdRouteImport } from './routes/thread.$threadId'
 
-const LatestRoute = LatestRouteImport.update({
-  id: '/latest',
-  path: '/latest',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ThreadThreadIdRoute = ThreadThreadIdRouteImport.update({
-  id: '/thread/$threadId',
-  path: '/thread/$threadId',
+const LatestRoute = LatestRouteImport.update({
+  id: '/latest',
+  path: '/latest',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForumForumIdRoute = ForumForumIdRouteImport.update({
   id: '/forum/$forumId',
   path: '/forum/$forumId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThreadThreadIdRoute = ThreadThreadIdRouteImport.update({
+  id: '/thread/$threadId',
+  path: '/thread/$threadId',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -71,13 +71,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/latest': {
-      id: '/latest'
-      path: '/latest'
-      fullPath: '/latest'
-      preLoaderRoute: typeof LatestRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -85,11 +78,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/thread/$threadId': {
-      id: '/thread/$threadId'
-      path: '/thread/$threadId'
-      fullPath: '/thread/$threadId'
-      preLoaderRoute: typeof ThreadThreadIdRouteImport
+    '/latest': {
+      id: '/latest'
+      path: '/latest'
+      fullPath: '/latest'
+      preLoaderRoute: typeof LatestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forum/$forumId': {
@@ -97,6 +90,13 @@ declare module '@tanstack/react-router' {
       path: '/forum/$forumId'
       fullPath: '/forum/$forumId'
       preLoaderRoute: typeof ForumForumIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/thread/$threadId': {
+      id: '/thread/$threadId'
+      path: '/thread/$threadId'
+      fullPath: '/thread/$threadId'
+      preLoaderRoute: typeof ThreadThreadIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
