@@ -14,6 +14,16 @@ const NAV_LINKS: NavLink[] = [
     params: { threadId: "4013680" },
     label: "3.30 EN",
   },
+  {
+    to: "/thread/$threadId",
+    params: { threadId: "3985332" },
+    label: "3.29 EN",
+  },
+  {
+    to: "/thread/$threadId",
+    params: { threadId: "3985346" },
+    label: "3.29 RU",
+  },
   // {
   //   to: "/thread/$threadId",
   //   params: { threadId: PATCH_NOTES_THREAD_IDS["0.5.0_RU"] },
