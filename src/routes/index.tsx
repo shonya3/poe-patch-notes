@@ -60,15 +60,15 @@ const FORUM_GROUPS = [
 
 const FEATURED_LINKS = [
   {
-    id: "4000864",
-    label: "0.5.5 Patch Notes — EN",
-    title: "Content Update 0.5.5 — Path of Exile 2: Forbidden Rites",
+    id: "4013680",
+    label: "3.30 Patch Notes — EN",
+    title: "Content Update 3.30.0 — Path of Exile: Covens of Umbra",
   },
-  {
-    id: "4000889",
-    label: "0.5.5 Patch Notes — RU",
-    title: "Обновление 0.5.5 — Path of Exile 2: Запретные ритуалы",
-  },
+  // {
+  //   id: "4000889",
+  //   label: "0.5.5 Patch Notes — RU",
+  //   title: "Обновление 0.5.5 — Path of Exile 2: Запретные ритуалы",
+  // },
 ] as const;
 
 const FEED_GROUPS = ["PoE1", "PoE2"] as const;
