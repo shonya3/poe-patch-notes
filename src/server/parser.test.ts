@@ -1,5 +1,58 @@
 import { describe, it, expect } from "vitest";
-import { parseForumDate } from "./parser";
+import { cleanThreadHtml, parseForumDate } from "./parser";
+
+describe("cleanThreadHtml", () => {
+  function tocHrefs(html: string): Record<string, string> {
+    const hrefs: Record<string, string> = {};
+    for (const m of html.matchAll(/<a href="(#[^"]*)">([^<]*)<\/a>/g)) hrefs[m[2]] = m[1];
+    return hrefs;
+  }
+
+  it("maps table of contents links by target instead of position", () => {
+    const raw = `
+      <table><tr class="newsPost"><td><div class="content"><div id="top" class="lbox-container">
+        <div class="box-content">
+          <h2>Content Update 3.30.0 — Path of Exile: Covens of Umbra</h2>
+          <h3>Table of Contents</h3>
+          <ul>
+            <li><a href="#alphachanges">Alpha Changes</a></li>
+            <li><a href="#betachanges">Beta Changes</a></li>
+          </ul>
+          <h3>Alpha Changes</h3>
+          <p>Alpha body</p>
+          <h3>Unlisted Subheading</h3>
+          <p>Unlisted body</p>
+          <h3>Beta Changes</h3>
+          <p>Beta body</p>
+        </div>
+      </div></div></td></tr></table>`;
+    const { html, toc } = cleanThreadHtml(raw);
+    expect(toc.map((t) => t.id)).toEqual([
+      "contentupdate3.30.0—pathofexile:covensofumbra",
+      "alphachanges",
+      "unlistedsubheading",
+      "betachanges",
+    ]);
+    expect(tocHrefs(html)).toMatchObject({
+      "Alpha Changes": "#alphachanges",
+      "Beta Changes": "#betachanges",
+    });
+  });
+
+  it("resolves table of contents links by their text when the fragment differs", () => {
+    const raw = `
+      <table><tr class="newsPost"><td><div class="content">
+        <h3>Table of Contents</h3>
+        <ul>
+          <li><a href="#old-anchor">Skill Gem Changes</a></li>
+        </ul>
+        <h3>Skill Gem Changes</h3>
+        <p>Body</p>
+      </div></td></tr></table>`;
+    const { html } = cleanThreadHtml(raw);
+    expect(tocHrefs(html)["Skill Gem Changes"]).toBe("#skillgemchanges");
+  });
+});
 
 describe("parseForumDate", () => {
   describe("en", () => {

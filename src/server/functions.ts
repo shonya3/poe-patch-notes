@@ -128,7 +128,7 @@ export const getThreadContentFn = createServerFn({ method: "GET" })
   .inputValidator(ThreadContentSchema)
   .handler(async ({ data }) => {
     const url = `${FORUM_BASES.en}/view-thread/${data.threadId}`;
-    const cache = await caches.open("parsed-thread-v2");
+    const cache = await caches.open("parsed-thread-v3");
 
     const cached = await cache.match(url);
     if (cached) {

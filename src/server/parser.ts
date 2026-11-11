@@ -44,13 +44,17 @@ export function cleanThreadHtml(raw: string): {
 
   const contentEl = post.querySelector(".content") || post.querySelector("td:last-child") || post;
   const pageTitle = root.querySelector("title")?.text?.trim() ?? "";
-  const title = (pageTitle
-    ? pageTitle
-        .replace(/\s*[-–—]\s*Forum\s*[-–—]\s*Path of Exile\s*$/i, "")
-        .replace(/\s*[-–—]\s*Path of Exile\s*$/i, "")
-        .replace(/^[^-]+[-–—]\s*/, "")
-        .trim()
-    : "") || contentEl.querySelector("h1")?.text?.trim() || contentEl.querySelector("h2")?.text?.trim() || null;
+  const title =
+    (pageTitle
+      ? pageTitle
+          .replace(/\s*[-–—]\s*Forum\s*[-–—]\s*Path of Exile\s*$/i, "")
+          .replace(/\s*[-–—]\s*Path of Exile\s*$/i, "")
+          .replace(/^[^-]+[-–—]\s*/, "")
+          .trim()
+      : "") ||
+    contentEl.querySelector("h1")?.text?.trim() ||
+    contentEl.querySelector("h2")?.text?.trim() ||
+    null;
 
   contentEl.querySelectorAll("style, script").forEach((el) => el.remove());
 
@@ -109,16 +113,23 @@ export function cleanThreadHtml(raw: string): {
     let ul = tocHeading.nextElementSibling;
     while (ul && ul.tagName !== "UL") ul = ul.nextElementSibling;
     if (ul) {
-      const tocLinks = ul.querySelectorAll("a[href^='#']");
       const contentHeadings = contentEl.querySelectorAll("h1[id],h2[id],h3[id],h4[id]");
-      let headingIdx = 0;
+      const headingsById = new Map(contentHeadings.map((h) => [h.id, h]));
+      const headingsBySlug = new Map<string, (typeof contentHeadings)[number]>();
+      for (const h of contentHeadings) {
+        const slug = slugify(h.text.trim());
+        if (!headingsBySlug.has(slug)) headingsBySlug.set(slug, h);
+      }
+
+      const tocLinks = ul.querySelectorAll("a[href^='#']");
       tocLinks.forEach((link) => {
-        while (headingIdx < contentHeadings.length) {
-          const h = contentHeadings[headingIdx++];
-          if (h === tocHeading) continue;
-          link.setAttribute("href", "#" + h.id);
-          break;
-        }
+        const hrefId = (link.getAttribute("href") ?? "").slice(1);
+        if (!hrefId) return;
+        const target =
+          headingsById.get(hrefId) ??
+          headingsBySlug.get(hrefId) ??
+          headingsBySlug.get(slugify(link.text.trim()));
+        if (target) link.setAttribute("href", "#" + target.id);
       });
       if (toc.some((t) => t.id === "updatestopatchnotes")) {
         const li = parse(
