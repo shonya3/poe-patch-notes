@@ -18,8 +18,10 @@ describe("cleanThreadHtml", () => {
             <li><a href="#alphachanges">Alpha Changes</a></li>
             <li><a href="#betachanges">Beta Changes</a></li>
           </ul>
-          <h3>Alpha Changes</h3>
-          <p>Alpha body</p>
+          <div id="alphachanges">
+            <h3>Alpha Changes</h3>
+            <p>Alpha body</p>
+          </div>
           <h3>Unlisted Subheading</h3>
           <p>Unlisted body</p>
           <h3>Beta Changes</h3>
@@ -37,6 +39,9 @@ describe("cleanThreadHtml", () => {
       "Alpha Changes": "#alphachanges",
       "Beta Changes": "#betachanges",
     });
+    // The section wrapper's id must move to the heading rather than be duplicated.
+    expect(html.match(/id="alphachanges"/g)).toHaveLength(1);
+    expect(html).toContain('<h3 id="alphachanges">Alpha Changes</h3>');
   });
 
   it("resolves table of contents links by their text when the fragment differs", () => {

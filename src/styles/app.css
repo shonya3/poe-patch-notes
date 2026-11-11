@@ -34,6 +34,12 @@
   --border: light-dark(#e5e7eb, #1e293b);
   --prose-color: light-dark(#24293e, var(--color-taupe-400));
   --prose-heading-color: light-dark(#24293e, var(--color-taupe-300));
+  /* Sticky nav: 48px content + 1px border. */
+  --nav-height: 49px;
+}
+
+html {
+  scroll-padding-top: calc(var(--nav-height) + 8px);
 }
 
 .color-scheme--dark {

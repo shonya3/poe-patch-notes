@@ -1,4 +1,4 @@
-import { parse } from "node-html-parser";
+import { parse, type HTMLElement } from "node-html-parser";
 
 const IMAGE_MAP: Record<string, string> = {
   "https://web.poecdn.com/public/news/2026-05-22/RotAInfographic.png": "/img/RotAInfographic.webp",
@@ -61,6 +61,24 @@ export function cleanThreadHtml(raw: string): {
   const toc: TocItem[] = [];
   const tocIds = new Set<string>();
 
+  // The forum wraps each section in a container that already has an anchor id,
+  // which usually matches the slug of its heading. Move that id to the heading
+  // so we don't emit duplicate ids (and so scroll offsets apply to the heading).
+  const claimedIds = new Map<string, HTMLElement>();
+  contentEl.querySelectorAll("[id]").forEach((el) => {
+    const id = el.getAttribute("id");
+    if (!id || /^h[1-4]$/i.test(el.tagName)) return;
+    claimedIds.set(id, el);
+  });
+  function claimId(el: HTMLElement, id: string) {
+    if (id !== "top") {
+      const existing = claimedIds.get(id);
+      if (existing && existing !== el) existing.removeAttribute("id");
+    }
+    el.setAttribute("id", id);
+    claimedIds.set(id, el);
+  }
+
   contentEl.querySelectorAll("h1,h2,h3,h4,a,img,strong").forEach((el) => {
     const tag = el.tagName.toLowerCase();
     const keep: string[] = [];
@@ -70,7 +88,7 @@ export function cleanThreadHtml(raw: string): {
       if (!text) return;
       const id = slugify(text);
       if (id === "tableofcontents" || id === "содержание" || tocIds.has(id)) return;
-      el.setAttribute("id", id);
+      claimId(el, id);
       keep.push("id");
       tocIds.add(id);
       toc.push({ id, text, level: Number(tag[1]) });
@@ -87,7 +105,7 @@ export function cleanThreadHtml(raw: string): {
       if (!isHeading) return;
       const id = slugify(text);
       if (id === "tableofcontents" || id === "содержание" || tocIds.has(id)) return;
-      el.setAttribute("id", id);
+      claimId(el, id);
       keep.push("id");
       tocIds.add(id);
       toc.push({ id, text, level: 3 });
