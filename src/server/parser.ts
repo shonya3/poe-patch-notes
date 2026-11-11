@@ -2,6 +2,8 @@ import { parse, type HTMLElement } from "node-html-parser";
 
 const IMAGE_MAP: Record<string, string> = {
   "https://web.poecdn.com/public/news/2026-05-22/RotAInfographic.png": "/img/RotAInfographic.webp",
+  "https://web.poecdn.com/public/news/2026-11-09/POE1/Infographic/CovensofUmbra_Infographic.png":
+    "/img/3_30/CovensofUmbra_Infographic.webp",
   "https://web.poecdn.com/public/news/2026-07-17/CurseoftheAllflame_Content.png":
     "/img/3_29/CurseoftheAllflame_Content.webp",
   "https://web.poecdn.com/public/news/2026-07-14/LeftReliqaurianAsendancy.jpg":
